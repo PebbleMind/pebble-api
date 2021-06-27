@@ -2,13 +2,22 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const compression = require('compression');
+const cors = require("cors");
 const routes = require('./routes/route');
 const app = express();
 
 app.use(helmet());
 app.use(compression());
+app.use("/public", express.static(process.cwd() + "/public"));
+app.use(cors({ origin: "https://victoria-lo.github.io/Hashtag-TEA/" }));
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
+});
+
 app.use(express.json());
 app.use('/', routes);
+
 app.route('/')
   .get(function (req, res) {
     res.sendFile(process.cwd() + '/index.html');
