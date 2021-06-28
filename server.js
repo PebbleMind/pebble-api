@@ -9,7 +9,7 @@ const app = express();
 app.use(helmet());
 app.use(compression());
 app.use("/public", express.static(process.cwd() + "/public"));
-app.use(cors({ origin: "https://pebble-test.herokuapp.com/" }));
+app.use(cors());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     next();
