@@ -43,58 +43,13 @@ const dataSchema = new mongoose.Schema({
     phone: {
         type: Number,
     },
-
-
+    image:String,
+    
     //additonal
     ratings: {
         type: Number,
     },
 
-    //availibility
-    availability: {
-        sun: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        mon: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        tue: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        wed: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        thu: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        fri: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-        sat: {
-            enabled: {
-                type: Boolean,
-            },
-            timing: []
-        },
-    }
 });
 
 const Doctor = mongoose.model('Doctor', dataSchema); 
