@@ -7,7 +7,8 @@ const router  = express.Router();
 
 router.get('/login', loginController.getAllData);
 router.get('/login/:id', loginController.getOneData);
-router.post('/login', loginController.newData); 
+router.post('/login', loginController.uploadImg, loginController.newData); 
+router.patch('/login/:id', loginController.uploadImg, loginController.updateData);
 router.delete('/login', loginController.deleteAllData);
 router.delete('/login/:id', loginController.deleteOneData);
 
