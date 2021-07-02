@@ -1,5 +1,25 @@
 const availData = require('../models/availModel');
 
+const getAllData = (req, res, next) => {
+    availData.find({}, (err, data)=>{
+        if (err){
+            return res.json({Error: err});
+        }
+        return res.json(data);
+    })
+};
+
+const getOneData = (req, res, next) => {
+    let id = req.params.id;
+
+    availData.findOne({_id: id}, (err, data)=>{
+        if(err || !data) {
+            return res.json({message: "Data not found"});
+        }
+        else return res.json(data); 
+    })
+};
+
 const newData = (req, res) => {
     const newData = new availData({
         doctor_id: req.body.doctor_id,
@@ -33,25 +53,86 @@ const newData = (req, res) => {
     })
 };
 
-const getAllData = (req, res, next) => {
-    availData.find({}, (err, data)=>{
-        if (err){
-            return res.json({Error: err});
-        }
-        return res.json(data);
-    })
-};
-
-const getOneData = (req, res, next) => {
-    let id = req.params.id;
-
-    availData.findOne({_id: id}, (err, data)=>{
+const updateData = (req, res, next) => {
+    availData.findOne({_id: req.params.id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
-        else return res.json(data); 
+        if(req.body.doctor_id){
+            data.doctor_id = req.body.doctor_id
+        }
+        if(req.body.availability){
+            data.availability = req.body.availability
+        }
+        if(req.body.sun){
+            data.sun = req.body.sun
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }
+        if(req.body.mon){
+            data.mon = req.body.mon
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }
+        if(req.body.tue){
+            data.tue = req.body.tue
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }
+        if(req.body.wed){
+            data.wed = req.body.wed
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }
+        if(req.body.thu){
+            data.thu = req.body.thu
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }            
+        if(req.body.fri){
+            data.fri = req.body.fri
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }
+            
+        if(req.body.sat){
+            data.sat = req.body.sat
+            if(req.body.enabled){
+                data.enabled = req.body.enabled
+            }
+            if(req.body.timing){
+                data.timing = req.body.timing
+            }
+        }           
+
+        data.save()
+        return res.json(data)
     })
-};
+}
 
 const deleteAllData = (req, res, next) => {
     availData.deleteMany({}, err => {
@@ -77,6 +158,7 @@ module.exports = {
     getAllData,
     getOneData,
     newData,
+    updateData,
     deleteAllData,
     deleteOneData
 };
