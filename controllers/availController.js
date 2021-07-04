@@ -1,7 +1,7 @@
 const availData = require('../models/availModel');
 
 const getAllData = (req, res, next) => {
-    availData.find({}, (err, data)=>{
+    availData.find({doctor_id: req.params.doctor_id}, (err, data)=>{
         if (err){
             return res.json({Error: err});
         }
@@ -12,7 +12,7 @@ const getAllData = (req, res, next) => {
 const getOneData = (req, res, next) => {
     let id = req.params.id;
 
-    availData.findOne({_id: id}, (err, data)=>{
+    availData.findOne({_id: id, doctor_id: req.params.doctor_id}, (err, data)=>{
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
@@ -54,12 +54,12 @@ const newData = (req, res) => {
 };
 
 const updateData = (req, res, next) => {
-    availData.findOne({_id: req.params.id}, (err, data) => {
+    availData.findOne({_id: req.params.id, doctor_id: req.params.doctor_id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
         if(req.body.doctor_id){
-            data.doctor_id = req.body.doctor_id
+            data.doctor_id = req.params.doctor_id
         }
         if(req.body.availability){
             data.availability = req.body.availability
@@ -135,7 +135,7 @@ const updateData = (req, res, next) => {
 }
 
 const deleteAllData = (req, res, next) => {
-    availData.deleteMany({}, err => {
+    availData.deleteMany({doctor_id: req.params.doctor_id}, err => {
         if(err) {
           return res.json({message: "Complete delete failed"});
         }
@@ -146,7 +146,7 @@ const deleteAllData = (req, res, next) => {
 const deleteOneData = (req, res, next) => {
     let id = req.params.id;
     
-    availData.deleteOne({_id: id}, (err, data) => {
+    availData.deleteOne({_id: id, doctor_id: req.params.doctor_id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data doesn't exist."});
         }

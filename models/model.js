@@ -30,5 +30,4 @@ const dataSchema = new mongoose.Schema({
     } 
 });
 
-const Login = mongoose.model('Login', dataSchema); 
-module.exports = Login; 
+module.exports = mongoose.model('Login', dataSchema); 

@@ -52,5 +52,4 @@ const dataSchema = new mongoose.Schema({
     }
 });
 
-const Availability = mongoose.model('Availability', dataSchema); 
-module.exports = Availability; 
+module.exports = mongoose.model('Availability', dataSchema); 
