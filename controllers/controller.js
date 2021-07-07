@@ -39,7 +39,6 @@ const newData = (req, res) => {
         dob: req.body.dob,
         email: req.body.email,
         password: req.body.password,
-        image: req.file.path,
         verified: req.body.verified,
     })
 
@@ -69,9 +68,9 @@ const updateData = (req, res, next) => {
         if (req.body.password){
             data.password = req.body.password
         }
-        if (req.file){
-            data.image = req.file.path
-        }
+        // if (req.file){
+        //     data.image = req.file.path
+        // }
         if (req.body.verified){
             data.verified = req.body.verified
         }
