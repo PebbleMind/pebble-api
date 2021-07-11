@@ -10,9 +10,7 @@ const getAllData = (req, res, next) => {
 };
 
 const getOneData = (req, res, next) => {
-    let id = req.params.id;
-
-    availData.findOne({_id: id, doctor_id: req.params.doctor_id}, (err, data)=>{
+    availData.findOne({_id: req.params.id, doctor_id: req.params.doctor_id}, (err, data)=>{
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
