@@ -20,8 +20,8 @@ const getOneData = (req, res, next) => {
 
 const newData = (req, res) => {
     const newData = new appData({
-        date: req.params.date,
-        time: req.params.time,
+        date: req.body.date,
+        time: req.body.time,
         doctor_id: req.body.doctor_id, 
         user_id: req.body.user_id,
         price: req.body.price,
