@@ -18,7 +18,27 @@ const getOneData = (req, res, next) => {
     })
 };
 
+const deleteAllData = (req, res, next) => {
+    userData.deleteMany({user_id: req.params.user_id}, err => {
+        if(err) {
+          return res.json({message: "Complete delete failed"});
+        }
+        return res.json({message: "Complete delete successful"});
+    })
+};
+
+const deleteOneData = (req, res, next) => {    
+    userData.deleteOne({_id:req.params.id, user_id: req.params.user_id}, (err, data) => {
+        if(err || !data) {
+            return res.json({message: "Data doesn't exist."});
+        }
+        else return res.json({message: "Data deleted."});
+    })
+};
+
 module.exports = {
     getAllData,
-    getOneData
+    getOneData,
+    deleteAllData,
+    deleteOneData
 };

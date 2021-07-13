@@ -37,5 +37,7 @@ router.delete('/doctors/:doctor_id/appointments/:id', docAppoinmentController.de
 
 router.get('/user/:user_id/appointments', userAppController.getAllData);
 router.get('/user/:user_id/appointments/:id', userAppController.getOneData);
+router.delete('/user/:user_id/appointments', userAppController.deleteAllData);
+router.delete('/user/:user_id/appointments/:id', userAppController.deleteOneData);
 
 module.exports = router;
