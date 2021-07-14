@@ -25,7 +25,7 @@ const dataSchema = new mongoose.Schema({
     meeting_id: {
         type: Number
     },
-    passcode: {
+    password: {
         type: String
     },
     join_url: {

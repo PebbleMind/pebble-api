@@ -28,7 +28,7 @@ const newData = (req, res) => {
         type: req.body.type,
         payment: req.body.payment,
         meeting_id: req.body.meeting_id,
-        passcode: req.body.passcode,
+        password: req.body.password,
         join_url: req.body.join_url,
     })
 
