@@ -27,6 +27,9 @@ const newData = (req, res) => {
         price: req.body.price,
         type: req.body.type,
         payment: req.body.payment,
+        meeting_id: req.body.meeting_id,
+        passcode: req.body.passcode,
+        join_url: req.body.join_url,
     })
 
     newData.save((err, data) => {

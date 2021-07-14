@@ -21,6 +21,15 @@ const dataSchema = new mongoose.Schema({
     },
     payment: {
         type: Boolean
+    },
+    meeting_id: {
+        type: Number
+    },
+    passcode: {
+        type: String
+    },
+    join_url: {
+        type: String
     }
 });
 
