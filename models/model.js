@@ -24,6 +24,9 @@ const dataSchema = new mongoose.Schema({
     verified: {
         type: Boolean,
         deafult: false
+    },
+    uniqueString: {
+        type: String, 
     } 
 });
 

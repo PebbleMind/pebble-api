@@ -1,5 +1,6 @@
 const Login = require('../models/model')
 const multer = require("multer");
+const nodemailer = require("nodemailer");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -32,7 +33,47 @@ const getOneData = (req, res, next) => {
     })
 };
 
+const randString = () => {
+    const len = 8
+    let randStr = ''
+    for (let i=0; i < len; i++) {
+        const ch = Math.floor((Math.random() * 10) + 1)
+        randStr += ch
+    }
+    return randStr
+}
+
+const sendConfirmationMail = (email, uniqueString) => {
+    var Transport = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: "pebblecontact.team@gmail.com",
+            pass: "vsk@pebble"
+        }
+    });
+
+    var mailOptions;
+    let sender = "Pebble"
+    mailOptions = {
+        from: sender,
+        to: email,
+        subject: "Email Confirmation - Pebble Account",
+        html: `Hello, <br/> Click <a href=https://pebble-test.herokuapp.com/login/verify/${uniqueString}> here </a> to verify your email. <br/>Thanks,<br/>Team Pebble.`
+    };
+
+    Transport.sendMail(mailOptions, function(error, response){
+        if(error){
+            console.log(error)
+        } else{
+            console.log("Success: Message sent");
+        }
+    });
+}
+
 const newData = (req, res) => {
+    const uniqueString = randString()
+    const email = req.body.email
+
     const newData = new Login({
         first_name: req.body.first_name, 
         last_name: req.body.last_name,
@@ -40,8 +81,10 @@ const newData = (req, res) => {
         email: req.body.email,
         password: req.body.password,
         verified: req.body.verified,
+        uniqueString: uniqueString,
     })
 
+    sendConfirmationMail(email, uniqueString)
     newData.save((err, data) => {
         if(err) return res.json({Error: err});
         return res.json(data);
@@ -100,6 +143,18 @@ const deleteOneData = (req, res, next) => {
     })
 };
 
+const verifyUser = (req, res, next) => {
+    Login.findOne({uniqueString: req.params.uniqueString}, (err, data) => {
+        if(err || !data) {
+            return res.json({message: "Data not found"});
+        }
+        data.verified = true
+
+        data.save()
+        return res.json(data)
+    })
+}
+
 module.exports = {
     getAllData,
     getOneData,
@@ -107,5 +162,6 @@ module.exports = {
     newData,
     updateData,
     deleteAllData,
-    deleteOneData
+    deleteOneData,
+    verifyUser
 };

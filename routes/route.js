@@ -14,6 +14,8 @@ router.patch('/login/:id', loginController.uploadImg, loginController.updateData
 router.delete('/login', loginController.deleteAllData);
 router.delete('/login/:id', loginController.deleteOneData);
 
+router.get('/login/verify/:uniqueString', loginController.verifyUser);
+
 router.get('/doctors', docController.getAllData);
 router.get('/doctors/:id', docController.getOneData);
 router.post('/doctors', docController.uploadImg, docController.newData); 
