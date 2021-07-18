@@ -1,7 +1,7 @@
 const Login = require('../models/model')
 const multer = require("multer");
-const nodemailer = require("nodemailer");
-const mailgun = require("mailgun-js");
+const nodemailer = require("nodemailer")
+const mailgun = require("mailgun-js")
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -45,6 +45,37 @@ const randString = () => {
 }
 
 const sendConfirmationMail = (email, uniqueString) => {
+    const mailjet = require ('node-mailjet')
+    .connect('46dda229ba3eedf81dfa8f6620d2b9b7', '943f6bb84ff84788fc59320120e7da13')
+    const request = mailjet
+    .post("send", {'version': 'v3.1'})
+    .request({
+      "Messages":[
+        {
+          "From": {
+            "Email": "pebblecontact.team@gmail.com",
+            "Name": "Praveen"
+          },
+          "To": [
+            {
+              "Email": "pebblecontact.team@gmail.com",
+              "Name": "Praveen"
+            }
+          ],
+          "Subject": "Greetings from Mailjet.",
+          "TextPart": "My first Mailjet email",
+          "HTMLPart": "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
+          "CustomID": "AppGettingStartedTest"
+        }
+      ]
+    })
+    request
+      .then((result) => {
+        console.log(result.body)
+      })
+      .catch((err) => {
+        console.log(err.statusCode)
+      })
     // var Transport = nodemailer.createTransport({
     //     service: "Gmail",
     //     auth: {
@@ -69,19 +100,19 @@ const sendConfirmationMail = (email, uniqueString) => {
     //         console.log("Success: Message sent");
     //     }
     // });
-    const api_key = 'key-d092ba6d34a7c13b5b87823e3e09216b'
-    const DOMAIN = 'https://api.mailgun.net/v3/sandbox64b0499977074ebab31ffa756df31aa9.mailgun.org';
-    const mg = mailgun({apiKey: api_key, domain: DOMAIN});
-    const data = {
-	    from: 'Pebble <pebblecontact.team@gmail.com>',
-	    to: email,
-	    subject: 'Pebble - Email Confirmation',
-	    text: 'Account Verification',
-        html: `<html><body>Click <a href="https://pebble.test.herokuapp.com/login/verfiy/${uniqueString}">here</a> to verify you email address</body></html>`
-    };
-    mg.messages().send(data, function (error, body) {
-	    console.log(body);
-    });
+    // const api_key = 'key-d092ba6d34a7c13b5b87823e3e09216b'
+    // const DOMAIN = 'https://api.mailgun.net/v3/sandbox64b0499977074ebab31ffa756df31aa9.mailgun.org';
+    // const mg = mailgun({apiKey: api_key, domain: DOMAIN});
+    // const data = {
+	//     from: 'Pebble <pebblecontact.team@gmail.com>',
+	//     to: email,
+	//     subject: 'Pebble - Email Confirmation',
+	//     text: 'Account Verification',
+    //     html: `<html><body>Click <a href="https://pebble.test.herokuapp.com/login/verfiy/${uniqueString}">here</a> to verify you email address</body></html>`
+    // };
+    // mg.messages().send(data, function (error, body) {
+	//     console.log(body);
+    // });
 }
 
 const newData = (req, res) => {
