@@ -86,6 +86,7 @@ const sendConfirmationMail = (email, uniqueString) => {
                                           <tbody>
                                               <tr>
                                                   <td class="" style="padding: 0px; width: 100%;" align="center">
+                                                  <img src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="auto" height="auto">
                                                       <table dir="ltr" style="border: 0; width: 100%;" cellspacing="0"
                                                           cellpadding="0">
                                                           <tbody>
