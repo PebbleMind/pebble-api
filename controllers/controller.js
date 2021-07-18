@@ -53,7 +53,7 @@ const sendConfirmationMail = (email, uniqueString) => {
       "Messages":[
         {
           "From": {
-            "Email": "pebblecontact.team@gmail.com",
+            "Email": "no-reply@pebble.com",
             "Name": "Pebble Mind"
           },
           "To": [
@@ -66,7 +66,7 @@ const sendConfirmationMail = (email, uniqueString) => {
           "HTMLPart": `<h3>Account Verification</h3>
                         <br><br>
                         <p>Hello, 
-                        <br/> Click <a href='https://pebble-test.herokuapp.com/login/verfiy/${uniqueString}'>here</a> to verify you email address.
+                        <br/> Click <a href='https://pebble-test.herokuapp.com/login/verify/${uniqueString}'>here</a> to verify you email address.
                         <br/> Thanks, <br/> Team Pebble.`
         }
       ]
