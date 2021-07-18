@@ -86,13 +86,13 @@ const sendConfirmationMail = (email, uniqueString) => {
                                           <tbody>
                                               <tr>
                                                   <td class="" style="padding: 0px; width: 100%;" align="center">
-                                                  <img src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="auto" height="auto">
                                                       <table dir="ltr" style="border: 0; width: 100%;" cellspacing="0"
                                                           cellpadding="0">
                                                           <tbody>
                                                               <tr>
                                                                   <td class="tw-card-body"
                                                                       style="padding: 20px 35px; text-align: left; color: #6f6f6f; font-family: sans-serif; border-top: 0;">
+                                                                      <img src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="auto" height="auto">
                                                                       <h1 class="tw-h1"
                                                                           style="font-size: 24px; font-weight: bold; mso-line-height-rule: exactly; line-height: 32px; margin: 0 0 20px; color: #474747;">
                                                                           Hello,</h1>
@@ -269,43 +269,6 @@ const sendConfirmationMail = (email, uniqueString) => {
         .catch((err) => {
             console.log(err.statusCode)
         })
-    // var Transport = nodemailer.createTransport({
-    //     service: "Gmail",
-    //     auth: {
-    //         user: "pebblecontact.team@gmail.com",
-    //         pass: "vsk@pebble"
-    //     }
-    // });
-
-    // var mailOptions;
-    // let sender = "Pebble"
-    // mailOptions = {
-    //     from: sender,
-    //     to: email,
-    //     subject: "Email Confirmation - Pebble Account",
-    //     html: `Hello, <br/> Click <a href=https://pebble-test.herokuapp.com/login/verify/${uniqueString}> here </a> to verify your email. <br/>Thanks,<br/>Team Pebble.`
-    // };
-
-    // Transport.sendMail(mailOptions, function(error, response){
-    //     if(error){
-    //         console.log(error)
-    //     } else{
-    //         console.log("Success: Message sent");
-    //     }
-    // });
-    // const api_key = 'key-d092ba6d34a7c13b5b87823e3e09216b'
-    // const DOMAIN = 'https://api.mailgun.net/v3/sandbox64b0499977074ebab31ffa756df31aa9.mailgun.org';
-    // const mg = mailgun({apiKey: api_key, domain: DOMAIN});
-    // const data = {
-    //     from: 'Pebble <pebblecontact.team@gmail.com>',
-    //     to: email,
-    //     subject: 'Pebble - Email Confirmation',
-    //     text: 'Account Verification',
-    //     html: `<html><body>Click <a href="https://pebble.test.herokuapp.com/login/verfiy/${uniqueString}">here</a> to verify you email address</body></html>`
-    // };
-    // mg.messages().send(data, function (error, body) {
-    //     console.log(body);
-    // });
 }
 
 const newData = (req, res) => {
