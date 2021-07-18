@@ -86,19 +86,6 @@ const sendConfirmationMail = (email, uniqueString) => {
                                           <tbody>
                                               <tr>
                                                   <td class="" style="padding: 0px; width: 100%;" align="center">
-                                                      <table
-                                                          style="background: #336f85; border: 0px; border-radius: 0px; width: 599px; height: 53px; margin-left: auto; margin-right: auto;"
-                                                          cellspacing="0" cellpadding="0">
-                                                          <tbody>
-                                                              <tr>
-                                                                  <td class="tw-card-header"
-                                                                      style="padding: 5px 5px px; width: 266px; color: #ffff; text-decoration: none; font-family: sans-serif;"
-                                                                      align="center"><span style="font-weight: 400;">Email
-                                                                          Confirmation Required</span></td>
-                                                              </tr>
-                                                          </tbody>
-                                                      </table>
-                                                      <p><br /><br /></p>
                                                       <table dir="ltr" style="border: 0; width: 100%;" cellspacing="0"
                                                           cellpadding="0">
                                                           <tbody>
@@ -245,40 +232,6 @@ const sendConfirmationMail = (email, uniqueString) => {
                                                                           </tbody>
                                                                       </table>
                                                                   </td>
-                                                              </tr>
-                                                          </tbody>
-                                                      </table>
-                                                      <table dir="ltr"
-                                                          style="border: 0; width: 100%; background-color: #006981;"
-                                                          border="0" cellspacing="0" cellpadding="0">
-                                                          <tbody>
-                                                              <tr>
-                                                                  <td class="tw-card-body"
-                                                                      style="padding: 5px 5px; text-align: left; color: #6f6f6f; font-family: sans-serif; border-top: 0px solid #E1E1E1;">
-                                                                      &nbsp;</td>
-                                                              </tr>
-                                                              <tr>
-                                                                  <td class="tw-card-body"
-                                                                      style="padding: 5px 0; text-align: center; color: #9a9a9a; font-family: sans-serif; font-size: 13px; mso-line-height-rule: exactly; line-height: 20px; border-top: 0px solid #E1E1E1;">
-                                                                      &nbsp;<a
-                                                                          style="color: #ffffff; text-decoration: none;"
-                                                                          href="#"
-                                                                          target="_blank" rel="noopener">Facebook </a>
-                                                                      &nbsp; | &nbsp; <a
-                                                                          style="color: #ffffff; text-decoration: none;"
-                                                                          href="#"
-                                                                          target="_blank"
-                                                                          rel="noopener">Instagram</a> &nbsp; |
-                                                                      &nbsp; <a
-                                                                          style="color: #ffffff; text-decoration: none;"
-                                                                          href="#"
-                                                                          target="_blank" rel="noopener">Twitter</a>&nbsp;
-                                                                  </td>
-                                                              </tr>
-                                                              <tr>
-                                                                  <td class="tw-card-body"
-                                                                      style="padding: 5px 3px; text-align: left; color: #6f6f6f; font-family: sans-serif; border-top: 0px solid #E1E1E1;">
-                                                                      &nbsp;</td>
                                                               </tr>
                                                           </tbody>
                                                       </table>
