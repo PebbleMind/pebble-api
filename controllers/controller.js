@@ -45,43 +45,43 @@ const randString = () => {
 }
 
 const sendConfirmationMail = (email, uniqueString) => {
-    var Transport = nodemailer.createTransport({
-        service: "Gmail",
-        auth: {
-            user: "pebblecontact.team@gmail.com",
-            pass: "vsk@pebble"
-        }
-    });
-
-    var mailOptions;
-    let sender = "Pebble"
-    mailOptions = {
-        from: sender,
-        to: email,
-        subject: "Email Confirmation - Pebble Account",
-        html: `Hello, <br/> Click <a href=https://pebble-test.herokuapp.com/login/verify/${uniqueString}> here </a> to verify your email. <br/>Thanks,<br/>Team Pebble.`
-    };
-
-    Transport.sendMail(mailOptions, function(error, response){
-        if(error){
-            console.log(error)
-        } else{
-            console.log("Success: Message sent");
-        }
-    });
-    // const api_key = 'c0cd080a51c3516c635e3ef41f92cf9c-e31dc3cc-0118c84a'
-    // const DOMAIN = 'https://api.mailgun.net/v3/sandbox64b0499977074ebab31ffa756df31aa9.mailgun.org';
-    // const mg = mailgun({apiKey: api_key, domain: DOMAIN});
-    // const data = {
-	//     from: 'Pebble <pebblecontact.team@gmail.com>',
-	//     to: email,
-	//     subject: 'Pebble - Email Confirmation',
-	//     text: 'Account Verification',
-    //     html: `<html><body>Click <a href="https://pebble.test.herokuapp.com/login/verfiy/${uniqueString}">here</a> to verify you email address</body></html>`
-    // };
-    // mg.messages().send(data, function (error, body) {
-	//     console.log(body);
+    // var Transport = nodemailer.createTransport({
+    //     service: "Gmail",
+    //     auth: {
+    //         user: "pebblecontact.team@gmail.com",
+    //         pass: "vsk@pebble"
+    //     }
     // });
+
+    // var mailOptions;
+    // let sender = "Pebble"
+    // mailOptions = {
+    //     from: sender,
+    //     to: email,
+    //     subject: "Email Confirmation - Pebble Account",
+    //     html: `Hello, <br/> Click <a href=https://pebble-test.herokuapp.com/login/verify/${uniqueString}> here </a> to verify your email. <br/>Thanks,<br/>Team Pebble.`
+    // };
+
+    // Transport.sendMail(mailOptions, function(error, response){
+    //     if(error){
+    //         console.log(error)
+    //     } else{
+    //         console.log("Success: Message sent");
+    //     }
+    // });
+    const api_key = 'key-d092ba6d34a7c13b5b87823e3e09216b'
+    const DOMAIN = 'https://api.mailgun.net/v3/sandbox64b0499977074ebab31ffa756df31aa9.mailgun.org';
+    const mg = mailgun({apiKey: api_key, domain: DOMAIN});
+    const data = {
+	    from: 'Pebble <pebblecontact.team@gmail.com>',
+	    to: email,
+	    subject: 'Pebble - Email Confirmation',
+	    text: 'Account Verification',
+        html: `<html><body>Click <a href="https://pebble.test.herokuapp.com/login/verfiy/${uniqueString}">here</a> to verify you email address</body></html>`
+    };
+    mg.messages().send(data, function (error, body) {
+	    console.log(body);
+    });
 }
 
 const newData = (req, res) => {
