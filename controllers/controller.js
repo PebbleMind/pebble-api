@@ -54,18 +54,20 @@ const sendConfirmationMail = (email, uniqueString) => {
         {
           "From": {
             "Email": "pebblecontact.team@gmail.com",
-            "Name": "Praveen"
+            "Name": "Pebble Mind"
           },
           "To": [
             {
-              "Email": "pebblecontact.team@gmail.com",
+              "Email": email,
               "Name": "Praveen"
             }
           ],
-          "Subject": "Greetings from Mailjet.",
-          "TextPart": "My first Mailjet email",
-          "HTMLPart": "<h3>Dear passenger 1, welcome to <a href='https://www.mailjet.com/'>Mailjet</a>!</h3><br />May the delivery force be with you!",
-          "CustomID": "AppGettingStartedTest"
+          "Subject": "Email Confirmation",
+          "HTMLPart": `<h3>Account Verification</h3>
+                        <br><br>
+                        <p>Hello, 
+                        <br/> Click <a href='https://pebble-test.herokuapp.com/login/verfiy/${uniqueString}'>here</a> to verify you email address.
+                        <br/> Thanks, <br/> Team Pebble.`
         }
       ]
     })
