@@ -53,7 +53,7 @@ const sendConfirmationMail = (email, uniqueString) => {
       "Messages":[
         {
           "From": {
-            "Email": "no-reply@pebble.com",
+            "Email": "pebblecontact.team@gmail.com",
             "Name": "Pebble Mind"
           },
           "To": [
