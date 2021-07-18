@@ -6,104 +6,132 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Confirmed</title>
-    <style>
-        .success-message {
-            text-align: center;
-            max-width: 500px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .success-message__icon {
-            max-width: 75px;
-        }
-
-        .success-message__title {
-            color: #3DC480;
-            transform: translateY(25px);
-            opacity: 0;
-            transition: all 200ms ease;
-        }
-
-        .active .success-message__title {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .success-message__content {
-            color: #B8BABB;
-            transform: translateY(25px);
-            opacity: 0;
-            transition: all 200ms ease;
-            transition-delay: 50ms;
-        }
-
-        .active .success-message__content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .icon-checkmark circle {
-            fill: #3DC480;
-            transform-origin: 50% 50%;
-            transform: scale(0);
-            transition: transform 200ms cubic-bezier(0.22, 0.96, 0.38, 0.98);
-        }
-
-        .icon-checkmark path {
-            transition: stroke-dashoffset 350ms ease;
-            transition-delay: 100ms;
-        }
-
-        .active .icon-checkmark circle {
-            transform: scale(1);
-        }
-    </style>
 </head>
 
 <body style="background-color: #f4f4f4; font-family: Roboto, arial, sans-serif">
-    <script>
-        function PathLoader(el) {
-            this.el = el;
-            this.strokeLength = el.getTotalLength();
-
-            // set dash offset to 0
-            this.el.style.strokeDasharray =
-                this.el.style.strokeDashoffset = this.strokeLength;
+    <style>
+        html, body {
+            height: 100%;
         }
 
-        PathLoader.prototype._draw = function (val) {
-            this.el.style.strokeDashoffset = this.strokeLength * (1 - val);
+        html {
+            display: table;
+            margin: auto;
         }
 
-        PathLoader.prototype.setProgress = function (val, cb) {
-            this._draw(val);
-            if (cb && typeof cb === 'function') cb();
+        body {
+            display: table-cell;
+            vertical-align: middle;
         }
 
-        PathLoader.prototype.setProgressFn = function (fn) {
-            if (typeof fn === 'function') fn(this);
+        svg {
+            width: 100px;
+            display: block;
+            margin: 40px auto 0;
         }
 
-        var body = document.body,
-            svg = document.querySelector('svg path');
+        .path {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+        }
 
-        document.body.classList.add('active');
-        svg.setProgress(1);
-    </script>
-    <div class="success-message">
-        <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark">
-            <circle cx="38" cy="38" r="36" />
-            <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-                stroke-miterlimit="10" d="M17.7,40.9l10.9,10.9l28.7-28.7" />
+        .path.circle {
+            -webkit-animation: dash 0.9s ease-in-out;
+            animation: dash 0.9s ease-in-out;
+        }
+
+        .path.line {
+            stroke-dashoffset: 1000;
+            -webkit-animation: dash 0.9s 0.35s ease-in-out forwards;
+            animation: dash 0.9s 0.35s ease-in-out forwards;
+        }
+
+        .path.check {
+            stroke-dashoffset: -100;
+            -webkit-animation: dash-check 0.9s 0.35s ease-in-out forwards;
+            animation: dash-check 0.9s 0.35s ease-in-out forwards;
+        }
+
+        h1 {
+            font-family: museo-sans, sans-serif;
+            text-align: center;
+            margin: 20px 0 20px;
+            font-size: 1.5rem;
+        }
+
+        h1.success {
+            color: #53934F;
+        }
+
+        h1.error {
+            color: #B11329;
+        }
+
+        p {
+            font-family: museo-sans, sans-serif;
+            text-align: center;
+            margin: 20px 0 60px;
+            font-size: 1.25em;
+            color: #6A6F71;
+        }
+
+        p.success {
+            color: #53934F;
+        }
+
+        p.error {
+            color: #B11329;
+        }
+
+        @-webkit-keyframes dash {
+            0% {
+                stroke-dashoffset: 1000;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes dash {
+            0% {
+                stroke-dashoffset: 1000;
+            }
+
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @-webkit-keyframes dash-check {
+            0% {
+                stroke-dashoffset: -100;
+            }
+
+            100% {
+                stroke-dashoffset: 900;
+            }
+        }
+
+        @keyframes dash-check {
+            0% {
+                stroke-dashoffset: -100;
+            }
+
+            100% {
+                stroke-dashoffset: 900;
+            }
+        }
+    </style>
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
+            <circle class="path circle" fill="#53934F" stroke="none" stroke-width="6" stroke-miterlimit="10" cx="65.1"
+                cy="65.1" r="62.1" />
+            <polyline class="path check" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round"
+                stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
         </svg>
-        <h1 class="success-message__title">Success</h1>
-        <div class="success-message__content">
-            <p>Your account has been successfully verified.<br> Please close this page and go back to the mobile app to login.</p>
-        </div>
-    </div>
+        <h1 class="success">Success</h1>
+        <p>Your account has been successfully verified.<br> Please close this page and go back to the mobile app to login.</p>
+
 </body>
 
 </html>
