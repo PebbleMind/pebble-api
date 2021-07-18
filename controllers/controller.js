@@ -99,7 +99,7 @@ const sendConfirmationMail = (email, uniqueString, firstName) => {
                                                                                             <tr>
                                                                                                 <td class="tw-card-body"
                                                                                                     style="padding: 20px 35px; text-align: left; color: #6f6f6f; font-family: sans-serif; border-top: 0;">
-                                                                                                    <img style="display: block; margin-left: auto; margin-right: auto;" src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="280px" height="auto">
+                                                                                                    <img style="display: block; margin-left: auto; margin-right: auto; width: 70%;" src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="300px" height="auto">
                                                                                                     <h3 class="tw-h1"
                                                                                                         style="font-size: 24px; font-weight: bold; mso-line-height-rule: exactly; line-height: 32px; margin: 0 0 20px; color: #474747;">
                                                                                                         Hello ${firstName},</h3>
