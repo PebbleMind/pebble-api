@@ -372,7 +372,7 @@ const verifyUser = (req, res, next) => {
         data.verified = true
 
         data.save()
-        return res.sendFile(path.join(__dirname+'/emailConfirmation.html'))
+        return res.sendFile(process.cwd()+'/emailConfirmation.html')
     })
 }
 
