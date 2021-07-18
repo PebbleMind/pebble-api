@@ -51,7 +51,7 @@ const randString = () => {
     return randStr
 }
 
-const sendConfirmationMail = (email, uniqueString) => {
+const sendConfirmationMail = (email, uniqueString, firstName) => {
     const mailjet = require('node-mailjet')
         .connect('46dda229ba3eedf81dfa8f6620d2b9b7', '943f6bb84ff84788fc59320120e7da13')
     const request = mailjet
@@ -95,7 +95,7 @@ const sendConfirmationMail = (email, uniqueString) => {
                                                                       <img src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="auto" height="auto">
                                                                       <h1 class="tw-h1"
                                                                           style="font-size: 24px; font-weight: bold; mso-line-height-rule: exactly; line-height: 32px; margin: 0 0 20px; color: #474747;">
-                                                                          Hello,</h1>
+                                                                          Hello ${firstName},</h1>
                                                                       <p class=""
                                                                           style="margin: 20px 0; font-size: 16px; mso-line-height-rule: exactly; line-height: 24px;">
                                                                           <span style="font-weight: 400;">Thank you for
@@ -274,6 +274,7 @@ const sendConfirmationMail = (email, uniqueString) => {
 const newData = (req, res) => {
     const uniqueString = randString()
     const email = req.body.email
+    const firstName = req.body.first_name
 
     const newData = new Login({
         first_name: req.body.first_name,
@@ -285,7 +286,7 @@ const newData = (req, res) => {
         uniqueString: uniqueString,
     })
 
-    sendConfirmationMail(email, uniqueString)
+    sendConfirmationMail(email, uniqueString, firstName)
     newData.save((err, data) => {
         if (err) return res.json({
             Error: err
@@ -371,7 +372,7 @@ const verifyUser = (req, res, next) => {
         data.verified = true
 
         data.save()
-        return res.json(data)
+        return res.sendFile(path.join(__dirname+'/emailConfirmation.html'))
     })
 }
 
