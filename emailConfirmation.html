@@ -63,7 +63,7 @@
     </style>
 </head>
 
-<body style="background-color: #f4f4f4; font-family: Roboto, arial, sans-serif" onload="successMessage()">
+<body style="background-color: #f4f4f4; font-family: Roboto, arial, sans-serif">
     <script>
         function PathLoader(el) {
             this.el = el;
@@ -90,19 +90,8 @@
         var body = document.body,
             svg = document.querySelector('svg path');
 
-        if (svg !== null) {
-            svg = new PathLoader(svg);
-
-            setTimeout(function () {
-                document.body.classList.add('active');
-                svg.setProgress(1);
-            }, 200);
-        }
-
-        function successMessage() {
-            document.body.classList.add('active');
-            svg.setProgress(1);
-        }
+        document.body.classList.add('active');
+        svg.setProgress(1);
     </script>
     <div class="success-message">
         <svg viewBox="0 0 76 76" class="success-message__icon icon-checkmark">
