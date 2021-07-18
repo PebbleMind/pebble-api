@@ -63,10 +63,19 @@ const sendConfirmationMail = (email, uniqueString) => {
             }
           ],
           "Subject": "Email Confirmation",
-          "HTMLPart": `<h3>Account Verification</h3>
+          "HTMLPart": ` <style>
+                            button: {
+                                padding: 10px,
+                            }
+                            p: {
+                                font-size: 15px,
+                            }
+                        </style>
+                        <h3>Account Verification</h3>
                         <br><br>
                         <p>Hello, 
-                        <br/> Click <a href='https://pebble-test.herokuapp.com/login/verify/${uniqueString}'>here</a> to verify you email address.
+                        <br/> Thankyou for registering. Click the below button to verify your account.<br>
+                        <button ><a href='https://pebble-test.herokuapp.com/login/verify/${uniqueString}'>Verify</a></button>
                         <br/> Thanks, <br/> Team Pebble.`
         }
       ]
