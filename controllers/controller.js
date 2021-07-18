@@ -119,7 +119,7 @@ const sendConfirmationMail = (email, uniqueString) => {
                                                                                                       style="border-radius: 7px; text-align: center; width: 523px;">
                                                                                                       <a class="button__a"
                                                                                                           style="border-radius: 4px; color: #ffffff; display: block; font-family: sans-serif; font-size: 18px; font-weight: bold; mso-height-rule: exactly; line-height: 1.1; padding: 14px 18px; text-decoration: none; text-transform: none; border: 0;"
-                                                                                                          href="http://pebble-test.herokuapp.com/login/verifiy/${uniqueString}"
+                                                                                                          href="http://pebble-test.herokuapp.com/login/verify/${uniqueString}"
                                                                                                           target="_blank"
                                                                                                           rel="noopener">Confirm
                                                                                                           email</a>
