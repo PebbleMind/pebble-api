@@ -1,4 +1,4 @@
-const userData = require('../models/appointmentModel');
+const userData = require('../../models/appointmentModel');
 
 const getAllData = (req, res, next) => {
     userData.find({user_id: req.params.user_id}, (err, data)=>{

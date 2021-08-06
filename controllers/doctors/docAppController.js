@@ -1,4 +1,4 @@
-const appData = require('../models/appointmentModel');
+const appData = require('../../models/appointmentModel');
 
 const getAllData = (req, res, next) => {
     appData.find({doctor_id: req.params.doctor_id}, (err, data)=>{

@@ -1,18 +1,6 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-    first_name: {
-        type: String, 
-        required: true
-    },
-    last_name: {
-        type: String, 
-        required: true
-    },
-    dob:{
-        type: Date,
-        required: true
-    },
     email: {
         type: String, 
         required: true
@@ -30,4 +18,4 @@ const dataSchema = new mongoose.Schema({
     } 
 });
 
-module.exports = mongoose.model('Login', dataSchema); 
+module.exports = mongoose.model('User Login', dataSchema); 

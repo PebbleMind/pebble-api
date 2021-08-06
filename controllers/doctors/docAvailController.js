@@ -1,4 +1,4 @@
-const availData = require('../models/availModel');
+const availData = require('../../models/doctors/docAvailabilityModel');
 
 const getAllData = (req, res, next) => {
     availData.find({doctor_id: req.params.doctor_id}, (err, data)=>{

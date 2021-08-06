@@ -4,8 +4,6 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String,
     },
-
-    //availibility
     availability: {
         sun: {
             enabled: {
@@ -52,4 +50,4 @@ const dataSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Availability', dataSchema); 
+module.exports = mongoose.model('Doc Availability', dataSchema); 

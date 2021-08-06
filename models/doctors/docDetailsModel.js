@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-    //default
     first_name: {
         type: String, 
         required: true
@@ -13,8 +12,6 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String,
     },
-
-    //work
     specialization: {
         type: String,
         required: true
@@ -29,8 +26,6 @@ const dataSchema = new mongoose.Schema({
     languages: {
         type: String,
     },
-
-    //contact and personal
     bio:{
         type: String,
     },
@@ -44,12 +39,10 @@ const dataSchema = new mongoose.Schema({
         type: Number,
     },
     image:String,
-    
-    //additonal
     ratings: {
         type: Number,
     },
 
 });
 
-module.exports = mongoose.model('Doctor', dataSchema);
+module.exports = mongoose.model('Doc Details', dataSchema);

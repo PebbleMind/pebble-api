@@ -1,20 +1,5 @@
-const Login = require('../models/model')
-const multer = require("multer");
-const nodemailer = require("nodemailer")
-const mailgun = require("mailgun-js")
-
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./uploads/users");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
-    },
-});
-
-const uploadImg = multer({
-    storage: storage
-}).single("image");
+const Login = require('../../models/users/userLoginModel')
+const bcrypt = require('bcrypt')
 
 const getAllData = (req, res, next) => {
     Login.find({}, (err, data) => {
@@ -51,7 +36,7 @@ const randString = () => {
     return randStr
 }
 
-const sendConfirmationMail = (email, uniqueString, firstName) => {
+const sendConfirmationMail = (email, uniqueString) => {
     const mailjet = require('node-mailjet')
         .connect('46dda229ba3eedf81dfa8f6620d2b9b7', '943f6bb84ff84788fc59320120e7da13')
     const request = mailjet
@@ -66,7 +51,6 @@ const sendConfirmationMail = (email, uniqueString, firstName) => {
                 },
                 "To": [{
                     "Email": email,
-                    "Name": "Praveen"
                 }],
                 "Subject": "Email Confirmation",
                 "HTMLPart": `<html>
@@ -102,7 +86,7 @@ const sendConfirmationMail = (email, uniqueString, firstName) => {
                                                                                                     <img style="display: block; margin-left: auto; margin-right: auto; width: 70%;" src="https://img.freepik.com/free-vector/woman-meditating-peaceful-nature-illustration-yoga-healthy-lifestyle-concept-flat-cartoon-design_115968-34.jpg?size=626&ext=jpg" width="300px" height="auto">
                                                                                                     <h3 class="tw-h1"
                                                                                                         style="font-size: 24px; font-weight: bold; mso-line-height-rule: exactly; line-height: 32px; margin: 0 0 20px; color: #474747;">
-                                                                                                        Hello ${firstName},</h3>
+                                                                                                        Hello,</h3>
                                                                                                     <p class=""
                                                                                                         style="margin: 20px 0; font-size: 16px; mso-line-height-rule: exactly; line-height: 24px;">
                                                                                                         <span style="font-weight: 400;">Thank you for
@@ -126,7 +110,7 @@ const sendConfirmationMail = (email, uniqueString, firstName) => {
                                                                                                                                     style="border-radius: 7px; text-align: center; width: 523px;margin: 0 auto">
                                                                                                                                     <a class="button__a"
                                                                                                                                         style="border-radius: 4px; color: #ffffff; display: block; font-family: sans-serif; font-size: 18px; font-weight: bold; mso-height-rule: exactly; line-height: 1.1; padding: 14px 18px; text-decoration: none; text-transform: none; border: 0;"
-                                                                                                                                        href="http://pebble-test.herokuapp.com/login/verify/${uniqueString}"
+                                                                                                                                        href="https://pebble-test.herokuapp.com/users/verify/${uniqueString}"
                                                                                                                                         target="_blank"
                                                                                                                                         rel="noopener">Confirm
                                                                                                                                         email</a>
@@ -282,24 +266,39 @@ const sendConfirmationMail = (email, uniqueString, firstName) => {
 const newData = (req, res) => {
     const uniqueString = randString()
     const email = req.body.email
-    const firstName = req.body.first_name
+    const orgPassword = req.body.password
 
-    const newData = new Login({
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        dob: req.body.dob,
-        email: req.body.email,
-        password: req.body.password,
-        verified: req.body.verified,
-        uniqueString: uniqueString,
-    })
-
-    sendConfirmationMail(email, uniqueString, firstName)
-    newData.save((err, data) => {
-        if (err) return res.json({
-            Error: err
-        });
-        return res.json(data);
+    Login.findOne({
+        email: email
+    }, (err, data) => {
+        if (err) {
+            return res.json({
+                Error: err
+            });
+        } else if(data) {
+            return res.json({
+                message: "Email already exists"
+            });
+        } else {
+            bcrypt.hash(orgPassword, 10, function(err, hashedPassword) {
+                if(err) return res.json({
+                    Error: err
+                }); 
+                const newData = new Login({
+                    email: req.body.email,
+                    password: hashedPassword,
+                    verified: false,
+                    uniqueString: uniqueString,
+                })
+                sendConfirmationMail(email, uniqueString)
+                newData.save((err, data) => {
+                    if (err) return res.json({
+                        Error: err
+                    });
+                    return res.json(data);
+                })
+            });
+        }
     })
 };
 
@@ -312,24 +311,15 @@ const updateData = (req, res, next) => {
                 message: "Data not found"
             });
         }
-        if (req.body.first_name) {
-            data.first_name = req.body.first_name
-        }
-        if (req.body.last_name) {
-            data.last_name = req.body.last_name
-        }
-        if (req.body.dob) {
-            data.dob = req.body.dob
-        }
         if (req.body.email) {
             data.email = req.body.email
         }
         if (req.body.password) {
-            data.password = req.body.password
+            const orgPassword = req.body.password
+            bcrypt.hash(orgPassword, 10, function(err, hashedPassword) {
+                data.password = hashedPassword
+            });
         }
-        // if (req.file){
-        //     data.image = req.file.path
-        // }
         if (req.body.verified) {
             data.verified = req.body.verified
         }
@@ -387,7 +377,6 @@ const verifyUser = (req, res, next) => {
 module.exports = {
     getAllData,
     getOneData,
-    uploadImg,
     newData,
     updateData,
     deleteAllData,
