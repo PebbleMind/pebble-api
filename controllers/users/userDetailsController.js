@@ -45,19 +45,35 @@ const newData = (req, res) => {
                 message: "Email already exists"
             });
         } else {
-            const newData = new userData({
-                first_name: req.body.first_name,
-                last_name: req.body.last_name,
-                dob: req.body.dob, 
-                gender: req.body.gender,
-                email: req.body.email, 
-                phone: req.body.phone,
-                image: req.file.path, 
-            })
-            newData.save((err, data) => {
-                if(err) return res.json({Error: err});
-                return res.json(data);
-            })
+            if(req.file){
+                const newData = new userData({
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    dob: req.body.dob, 
+                    gender: req.body.gender,
+                    email: req.body.email, 
+                    phone: req.body.phone,
+                    image: req.file.path, 
+                })
+                newData.save((err, data) => {
+                    if(err) return res.json({Error: err});
+                    return res.json(data);
+                })
+            }
+            else{
+                const newData = new userData({
+                    first_name: req.body.first_name,
+                    last_name: req.body.last_name,
+                    dob: req.body.dob, 
+                    gender: req.body.gender,
+                    email: req.body.email, 
+                    phone: req.body.phone,
+                })
+                newData.save((err, data) => {
+                    if(err) return res.json({Error: err});
+                    return res.json(data);
+                })
+            }
         }
     })
 };
