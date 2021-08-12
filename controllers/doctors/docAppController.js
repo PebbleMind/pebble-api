@@ -28,7 +28,6 @@ const newData = (req, res) => {
             type: req.body.type,
             mode: req.body.mode,
         patientDetails: req.body.patientDetails,
-            user_id: req.body.user_id,
             name: req.body.name,
             age: req.body.age,
             gender: req.body.gender,
