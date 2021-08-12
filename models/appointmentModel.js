@@ -4,6 +4,9 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String
     },
+    user_id: {
+        type: String
+    },
     appointmentDetails: {
         date: {
             type: Date
@@ -19,9 +22,6 @@ const dataSchema = new mongoose.Schema({
         }
     },
     patientDetails:{
-        user_id: {
-            type: String
-        },
         name:{
             type: String
         },
