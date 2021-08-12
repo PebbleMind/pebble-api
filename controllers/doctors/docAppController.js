@@ -20,12 +20,18 @@ const getOneData = (req, res, next) => {
 
 const newData = (req, res) => {
     const newData = new appData({
-        date: req.body.date,
-        time: req.body.time,
         doctor_id: req.body.doctor_id, 
-        user_id: req.body.user_id,
+        appointmentDetails: req.body.appointmentDetails,
+            date: req.body.date,
+            time: req.body.time,
+            type: req.body.type,
+            mode: req.body.mode,
+        patientDetails: req.body.patientDetails,
+            user_id: req.body.user_id,
+            name: req.body.name,
+            age: req.body.age,
+            gender: req.body.gender,
         price: req.body.price,
-        type: req.body.type,
         payment: req.body.payment,
         meeting_id: req.body.meeting_id,
         password: req.body.password,

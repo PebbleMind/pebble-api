@@ -19,6 +19,9 @@ const dataSchema = new mongoose.Schema({
         }
     },
     patientDetails:{
+        user_id: {
+            type: String
+        },
         name:{
             type: String
         },
