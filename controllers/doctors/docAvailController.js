@@ -21,7 +21,29 @@ const getOneData = (req, res, next) => {
 const newData = (req, res) => {
     const newData = new availData({
         doctor_id: req.body.doctor_id,
-        availability: req.body.availability,
+        onlineAvailability: req.body.onlineAvailability,
+            sun: req.body.sun,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            mon: req.body.mon,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            tue: req.body.tue,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            wed: req.body.wed,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            thu: req.body.thu,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            fri: req.body.fri,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+            sat: req.body.sat,
+                enabled: req.body.enabled,
+                timing: req.body.timing,
+        inclinicAvailability: req.body.inclinicAvailability,
             sun: req.body.sun,
                 enabled: req.body.enabled,
                 timing: req.body.timing,
@@ -59,74 +81,142 @@ const updateData = (req, res, next) => {
         if(req.body.doctor_id){
             data.doctor_id = req.params.doctor_id
         }
-        if(req.body.availability){
-            data.availability = req.body.availability
-        }
-        if(req.body.sun){
-            data.sun = req.body.sun
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
+        if(req.body.onlineAvailability){
+            data.onlineAvailability = req.body.onlineAvailability
+        
+            if(req.body.sun){
+                data.sun = req.body.sun
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
             }
-            if(req.body.timing){
-                data.timing = req.body.timing
+            if(req.body.mon){
+                data.mon = req.body.mon
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
             }
-        }
-        if(req.body.mon){
-            data.mon = req.body.mon
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
+            if(req.body.tue){
+                data.tue = req.body.tue
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
             }
-            if(req.body.timing){
-                data.timing = req.body.timing
+            if(req.body.wed){
+                data.wed = req.body.wed
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
             }
-        }
-        if(req.body.tue){
-            data.tue = req.body.tue
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
+            if(req.body.thu){
+                data.thu = req.body.thu
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }            
+            if(req.body.fri){
+                data.fri = req.body.fri
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
             }
-            if(req.body.timing){
-                data.timing = req.body.timing
-            }
-        }
-        if(req.body.wed){
-            data.wed = req.body.wed
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
-            }
-            if(req.body.timing){
-                data.timing = req.body.timing
-            }
-        }
-        if(req.body.thu){
-            data.thu = req.body.thu
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
-            }
-            if(req.body.timing){
-                data.timing = req.body.timing
-            }
-        }            
-        if(req.body.fri){
-            data.fri = req.body.fri
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
-            }
-            if(req.body.timing){
-                data.timing = req.body.timing
-            }
-        }
-            
-        if(req.body.sat){
-            data.sat = req.body.sat
-            if(req.body.enabled){
-                data.enabled = req.body.enabled
-            }
-            if(req.body.timing){
-                data.timing = req.body.timing
-            }
-        }           
 
+            if(req.body.sat){
+                data.sat = req.body.sat
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            } 
+        }          
+        if(req.body.inclinicAvailability){
+            data.inclinicAvailability = req.body.inclinicAvailability
+        
+            if(req.body.sun){
+                data.sun = req.body.sun
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+            if(req.body.mon){
+                data.mon = req.body.mon
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+            if(req.body.tue){
+                data.tue = req.body.tue
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+            if(req.body.wed){
+                data.wed = req.body.wed
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+            if(req.body.thu){
+                data.thu = req.body.thu
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }            
+            if(req.body.fri){
+                data.fri = req.body.fri
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+
+            if(req.body.sat){
+                data.sat = req.body.sat
+                if(req.body.enabled){
+                    data.enabled = req.body.enabled
+                }
+                if(req.body.timing){
+                    data.timing = req.body.timing
+                }
+            }
+        }
         data.save()
         return res.json(data)
     })

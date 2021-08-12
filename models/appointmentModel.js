@@ -1,35 +1,51 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-    date: {
-        type: Date
-    },
-    time: {
-        type: String
-    },
     doctor_id: {
         type: String
     },
-    user_id: {
-        type: String
+    appointmentDetails: {
+        date: {
+            type: Date
+        },
+        time: {
+            type: String
+        },
+        type: {
+            type: String
+        },
+        mode: {
+            type: String
+        }
+    },
+    patientDetails:{
+        name:{
+            type: String
+        },
+        age:{
+            type: Number
+        },
+        gender:{
+            type: String
+        }
     },
     price: {
         type: Number
-    },
-    type: {
-        type: String
     },
     payment: {
         type: Boolean
     },
     meeting_id: {
-        type: Number
+        type: Number,
+        default: null
     },
     password: {
-        type: String
+        type: String,
+        default: null
     },
     join_url: {
-        type: String
+        type: String,
+        default: null
     }
 });
 

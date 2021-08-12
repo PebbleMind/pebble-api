@@ -168,6 +168,7 @@ const newData = (req, res) => {
                 const newData = new Login({
                     email: req.body.email,
                     password: hashedPassword,
+                    userID: req.body.userID,
                     verified: false,
                     uniqueString: uniqueString,
                 })

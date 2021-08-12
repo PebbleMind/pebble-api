@@ -4,7 +4,51 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String,
     },
-    availability: {
+    onlineAvailability: {
+        sun: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        mon: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        tue: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        wed: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        thu: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        fri: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+        sat: {
+            enabled: {
+                type: Boolean,
+            },
+            timing: []
+        },
+    },
+    inclinicAvailability: {
         sun: {
             enabled: {
                 type: Boolean,
