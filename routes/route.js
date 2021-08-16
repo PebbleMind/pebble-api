@@ -11,6 +11,9 @@ const docDetailsController = require('../controllers/doctors/docDetailsControlle
 const docAvailController = require('../controllers/doctors/docAvailController');
 const docAppController = require('../controllers/doctors/docAppController');
 
+//posts
+const docPostController = require('../controllers/posts/docPostController');
+
 const router  = express.Router();
 
 //user - login
@@ -69,5 +72,16 @@ router.post('/doctors/:doctor_id/appointments', docAppController.newData);
 router.patch('/doctors/:doctor_id/appointments/:id', docAppController.updateData); 
 router.delete('/doctors/:doctor_id/appointments', docAppController.deleteAllData);
 router.delete('/doctors/:doctor_id/appointments/:id', docAppController.deleteOneData);
+
+//home - doctor posts
+router.get('/posts', docPostController.getAllData);
+router.get('/posts/:id', docPostController.getOneData);
+router.post('/posts', docPostController.uploadImg, docPostController.newData); 
+router.post('/posts/:id/comment', docPostController.updateData); 
+router.delete('/posts', docPostController.deleteAllData);
+router.delete('/posts/:id', docPostController.deleteOneData);
+router.delete('/posts/:id/comment', docPostController.deleteAllComment);
+router.delete('/posts/:id/comment/:c_id', docPostController.deleteOneComment);
+
 
 module.exports = router;
