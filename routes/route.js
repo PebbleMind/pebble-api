@@ -4,6 +4,7 @@ const express = require('express');
 const userLoginController = require('../controllers/users/userLoginController');
 const userAppController = require('../controllers/users/userAppController');
 const userDetailsController = require('../controllers/users/userDetailsController');
+const userMoodController = require('../controllers/users/userMoodController');
 
 //doctor
 const docLoginController = require('../controllers/doctors/docLoginController');
@@ -40,6 +41,13 @@ router.get('/users/:user_id/appointments', userAppController.getAllData);
 router.get('/users/:user_id/appointments/:id', userAppController.getOneData);
 router.delete('/users/:user_id/appointments', userAppController.deleteAllData);
 router.delete('/users/:user_id/appointments/:id', userAppController.deleteOneData);
+
+//user - mood tracker
+router.get('/users/:user_id/mood', userMoodController.getAllData);
+router.get('/users/:user_id/mood/:id', userMoodController.getAllData);
+router.post('/users/:user_id/mood', userMoodController.newData)
+router.delete('/users/:user_id/mood', userMoodController.deleteAllData);
+router.delete('/users/:user_id/mood/:id', userMoodController.deleteOneData);
 
 //doctor - login
 router.get('/doctors/login', docLoginController.getAllData);

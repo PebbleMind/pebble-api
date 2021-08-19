@@ -44,7 +44,7 @@ const getOneData = (req, res, next) => {
 };
 
 const newData = (req, res) => {
-    var newData = new postData()
+    var newData
     if(req.file){
         newData = new postData({
             doctor_id: req.body.doctor_id, 

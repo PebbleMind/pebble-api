@@ -45,8 +45,9 @@ const newData = (req, res) => {
                 message: "Email already exists"
             });
         } else {
+            var newData
             if(req.file){
-                const newData = new userData({
+                newData = new userData({
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
                     dob: req.body.dob, 
@@ -55,13 +56,9 @@ const newData = (req, res) => {
                     phone: req.body.phone,
                     image: req.file.path, 
                 })
-                newData.save((err, data) => {
-                    if(err) return res.json({Error: err});
-                    return res.json(data);
-                })
             }
             else{
-                const newData = new userData({
+                newData = new userData({
                     first_name: req.body.first_name,
                     last_name: req.body.last_name,
                     dob: req.body.dob, 
@@ -69,11 +66,11 @@ const newData = (req, res) => {
                     email: req.body.email, 
                     phone: req.body.phone,
                 })
-                newData.save((err, data) => {
-                    if(err) return res.json({Error: err});
-                    return res.json(data);
-                })
             }
+            newData.save((err, data) => {
+                if(err) return res.json({Error: err});
+                return res.json(data);
+            })
         }
     })
 };

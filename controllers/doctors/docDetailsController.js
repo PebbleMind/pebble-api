@@ -65,27 +65,54 @@ const newData = (req, res) => {
             });
         } else {
             docData.findOne({
-                doctor_id: genID
+                doctor_id: generatedID
             }, (err, data) =>{
                 if(data){
                     fetchLastDocID(req, res)
                 }
                 else{
-                    const newData = new docData({
-                        first_name: req.body.first_name,
-                        last_name: req.body.last_name, 
-                        doctor_id: generatedID, 
-                        specialization: req.body.specialization, 
-                        credentials: req.body.credentials, 
-                        experience: req.body.experience, 
-                        languages: req.body.languages, 
-                        bio: req.body.bio, 
-                        dob: req.body.dob, 
-                        email: req.body.email, 
-                        phone: req.body.phone,
-                        image: req.file.path, 
-                        ratings: req.body.ratings, 
-                    })
+                    var newData
+                    if(req.file){
+                        newData = new docData({
+                            doctor_id: generatedID, 
+                            basic: req.body.basic,
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name, 
+                                dob: req.body.dob, 
+                                image: req.file.path, 
+                            contact: req.body.contact,
+                                email: req.body.email, 
+                                phone: req.body.phone,
+                            work: req.body.work,
+                                education: req.body.education, 
+                                specialization: req.body.specialization, 
+                                experience: req.body.experience, 
+                                languages: req.body.languages, 
+                                bio: req.body.bio, 
+                            tags: req.body.tags,
+                            ratings: req.body.ratings, 
+                        })
+                    }
+                    else{
+                        newData = new docData({
+                            doctor_id: generatedID, 
+                            basic: req.body.basic,
+                                first_name: req.body.first_name,
+                                last_name: req.body.last_name, 
+                                dob: req.body.dob, 
+                            contact: req.body.contact,
+                                email: req.body.email, 
+                                phone: req.body.phone,
+                            work: req.body.work,
+                                education: req.body.education, 
+                                specialization: req.body.specialization, 
+                                experience: req.body.experience, 
+                                languages: req.body.languages, 
+                                bio: req.body.bio, 
+                            tags: req.body.tags,
+                            ratings: req.body.ratings, 
+                        })
+                    }
                     newData.save((err, data) => {
                         if(err) return res.json({Error: err});
                         return res.json(data);
@@ -101,45 +128,58 @@ const updateData = (req, res, next) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
-        if(req.body.first_name){
-            data.first_name = req.body.first_name
-        }
-        if(req.body.last_name){
-            data.last_name = req.body.last_name
-        }
-        if(req.body.doctor_id){
-            data.doctor_id = req.body.doctor_id
-        }
-        if(req.body.specialization){
-            data.specialization = req.body.specialization
-        }
-        if(req.body.credentials){
-            data.credentials = req.body.credentials
-        }
-        if(req.body.experience){
-            data.experience = req.body.experience
-        }
-        if(req.body.languages){
-            data.languages = req.body.languages
-        }
-        if(req.body.bio){
-            data.bio = req.body.bio
-        }
-        if(req.body.dob){
-            data.dob = req.body.dob
-        }
-        if(req.body.email){
-            data.email = req.body.email
-        }
-        if(req.body.phone){
-            data.phone = req.body.phone
-        }
-        if(req.file){
-            data.image = req.file.path
-        }
-        if(req.body.ratings){
-            data.ratings = req.body.ratings
-        }
+        else{
+            if(req.body.basic){
+                if(req.body.first_name){
+                    data.first_name = req.body.first_name
+                }
+                if(req.body.last_name){
+                    data.last_name = req.body.last_name
+                }
+                if(req.body.dob){
+                    data.dob = req.body.dob
+                }
+                if(req.file){
+                    data.image = req.file.path
+                }
+            }
+            if(req.body.contact){
+                if(req.body.email){
+                    data.email = req.body.email
+                }
+                if(req.body.phone){
+                    data.phone = req.body.phone
+                }
+            }
+            if(req.body.work){
+                if(req.body.education){
+                    data.education = req.body.education
+                }
+                if(req.body.specialization){
+                    data.specialization = req.body.specialization
+                }
+                if(req.body.experience){
+                    data.experience = req.body.experience
+                }
+                if(req.body.languages){
+                    data.languages = req.body.languages
+                }
+                if(req.body.bio){
+                    data.bio = req.body.bio
+                }
+            }
+            if(req.body.tags){
+                if(Array.isArray(req.body.tags)){
+                    req.body.tags.length == 0 ? data.tags = [] : data.tags = [...data.tags, ...req.body.tags]
+                }
+                else{
+                    data.tags.push(req.body.tags)
+                }
+            }
+            if(req.body.ratings){
+                data.ratings = req.body.ratings
+            }
+        }       
         data.save()
         return res.json(data)
     })
