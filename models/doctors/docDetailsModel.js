@@ -16,7 +16,6 @@ const dataSchema = new mongoose.Schema({
         dob: {
             type: Date,
         },
-        image:String,
     },
     contact:{
         email: {
@@ -51,6 +50,7 @@ const dataSchema = new mongoose.Schema({
     ratings: {
         type: Number,
     },
+    image:String,
 });
 
 module.exports = mongoose.model('Doc Details', dataSchema);

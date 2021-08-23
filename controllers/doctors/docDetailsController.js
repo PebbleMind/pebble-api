@@ -139,9 +139,6 @@ const updateData = (req, res, next) => {
                 if(req.body.dob){
                     data.dob = req.body.dob
                 }
-                if(req.file){
-                    data.image = req.file.path
-                }
             }
             if(req.body.contact){
                 if(req.body.email){
@@ -178,6 +175,9 @@ const updateData = (req, res, next) => {
             }
             if(req.body.ratings){
                 data.ratings = req.body.ratings
+            }
+            if(req.file){
+                data.image = req.file.path
             }
         }       
         data.save()

@@ -5,6 +5,7 @@ const userLoginController = require('../controllers/users/userLoginController');
 const userAppController = require('../controllers/users/userAppController');
 const userDetailsController = require('../controllers/users/userDetailsController');
 const userMoodController = require('../controllers/users/userMoodController');
+const userSItemController = require('../controllers/users/userSItemController');
 
 //doctor
 const docLoginController = require('../controllers/doctors/docLoginController');
@@ -14,6 +15,7 @@ const docAppController = require('../controllers/doctors/docAppController');
 
 //posts
 const docPostController = require('../controllers/posts/docPostController');
+const extraContentController = require('../controllers/posts/extraContentController');
 
 const router  = express.Router();
 
@@ -49,6 +51,13 @@ router.post('/users/:user_id/mood', userMoodController.newData)
 router.delete('/users/:user_id/mood', userMoodController.deleteAllData);
 router.delete('/users/:user_id/mood/:id', userMoodController.deleteOneData);
 
+//user - saved items
+router.get('/users/:user_id/savedItems', userSItemController.getAllData);
+router.get('/users/:user_id/savedItems/:id', userSItemController.getAllData);
+router.post('/users/:user_id/savedItems', userSItemController.newData)
+router.delete('/users/:user_id/savedItems', userSItemController.deleteAllData);
+router.delete('/users/:user_id/savedItems/:id', userSItemController.deleteOneData);
+
 //doctor - login
 router.get('/doctors/login', docLoginController.getAllData);
 router.get('/doctors/login/:id', docLoginController.getOneData);
@@ -80,6 +89,14 @@ router.post('/doctors/:doctor_id/appointments', docAppController.newData);
 router.patch('/doctors/:doctor_id/appointments/:id', docAppController.updateData); 
 router.delete('/doctors/:doctor_id/appointments', docAppController.deleteAllData);
 router.delete('/doctors/:doctor_id/appointments/:id', docAppController.deleteOneData);
+
+//home - extra content
+router.get('/posts/extra', extraContentController.getAllData);
+router.get('/posts/extra/:id', extraContentController.getOneData);
+router.post('/posts/extra', extraContentController.uploadImg, extraContentController.newData); 
+router.patch('/posts/extra/:id', extraContentController.updateData); 
+router.delete('/posts/extra', extraContentController.deleteAllData);
+router.delete('/posts/extra/:id', extraContentController.deleteOneData);
 
 //home - doctor posts
 router.get('/posts', docPostController.getAllData);

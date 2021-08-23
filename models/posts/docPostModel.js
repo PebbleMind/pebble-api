@@ -4,6 +4,7 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String,
     },
+    image: String,
     postInfo:{
         description:{
             type: String,
@@ -11,7 +12,9 @@ const dataSchema = new mongoose.Schema({
         date: {
             type: Date,
         },
-        image: String,
+    },
+    postLikes: {
+        type: Number,
     },
     postComments:[{ 
         user_id:{
