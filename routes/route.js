@@ -11,6 +11,7 @@ const userSItemController = require('../controllers/users/userSItemController');
 const docLoginController = require('../controllers/doctors/docLoginController');
 const docDetailsController = require('../controllers/doctors/docDetailsController');
 const docAvailController = require('../controllers/doctors/docAvailController');
+const docServicesController = require('../controllers/doctors/docServicesController');
 const docAppController = require('../controllers/doctors/docAppController');
 
 //posts
@@ -81,6 +82,14 @@ router.post('/doctors/:doctor_id/availability', docAvailController.newData);
 router.patch('/doctors/:doctor_id/availability/:id', docAvailController.updateData); 
 router.delete('/doctors/:doctor_id/availability', docAvailController.deleteAllData);
 router.delete('/doctors/:doctor_id/availability/:id', docAvailController.deleteOneData);
+
+//doctor - services
+router.get('/doctors/:doctor_id/services', docServicesController.getAllData);
+router.get('/doctors/:doctor_id/services/:id', docServicesController.getOneData);
+router.post('/doctors/:doctor_id/services', docServicesController.newData); 
+router.patch('/doctors/:doctor_id/services/:id', docServicesController.updateData); 
+router.delete('/doctors/:doctor_id/services', docServicesController.deleteAllData);
+router.delete('/doctors/:doctor_id/services/:id', docServicesController.deleteOneData);
 
 //doctor - appointments 
 router.get('/doctors/:doctor_id/appointments', docAppController.getAllData);
