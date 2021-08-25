@@ -1,5 +1,8 @@
 const express = require('express'); 
 
+//admin 
+const adminLoginController = require('../controllers/admin/adminLoginController')
+
 //user
 const userLoginController = require('../controllers/users/userLoginController');
 const userAppController = require('../controllers/users/userAppController');
@@ -19,6 +22,12 @@ const docPostController = require('../controllers/posts/docPostController');
 const extraContentController = require('../controllers/posts/extraContentController');
 
 const router  = express.Router();
+
+//admin - login 
+router.get('/admin/login', adminLoginController.getAllData);
+router.post('/admin/login/add', adminLoginController.newData);
+router.patch('/admin/login/update/:id', adminLoginController.updateData);
+router.delete('/admin/login/remove/:id', adminLoginController.deleteOneData);
 
 //user - login
 router.get('/users/login', userLoginController.getAllData);

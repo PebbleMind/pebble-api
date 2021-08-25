@@ -32,6 +32,9 @@ const dataSchema = new mongoose.Schema({
             type: String
         }
     },
+    doctorNotes:{
+        type: String,
+    },
     price: {
         type: Number
     },

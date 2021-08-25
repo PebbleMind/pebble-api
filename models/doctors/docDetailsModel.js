@@ -4,6 +4,9 @@ const dataSchema = new mongoose.Schema({
     doctor_id: {
         type: String,
     },
+    zoom_id:{
+        type: String,
+    },
     basic:{
         first_name: {
             type: String, 

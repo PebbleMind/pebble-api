@@ -1,26 +1,30 @@
 const extraData = require('../../models/posts/extraContentModel');
 const multer = require('multer')
 
-const generateFileName = () => {
+const generateFileName = (name) => {
     var fileName = ''
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     var charactersLength = characters.length;
+
+    const searchTerm = '.'
+    const imageType = name.substring(name.lastIndexOf(searchTerm)+1)
+
     for ( var i = 0; i < 20; i++ ) {
       fileName += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return fileName
+    return fileName + '.' + imageType 
 }
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./uploads/users");
+        cb(null, "./uploads/posts");
       },
     filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, generateFileName(file.originalname));
     },
 });
 
-const uploadImg = multer({storage: storage}).single("image");
+const uploadImg = multer({storage: storage}).any();
 
 const getAllData = (req, res, next) => {
     extraData.find({}, (err, data)=>{
@@ -43,18 +47,17 @@ const getOneData = (req, res, next) => {
 };
 
 const newData = (req, res) => {
-    console.log(req.file)
-    // const newData = new extraData({
-    //     type: req.body.type,
-    //     url: req.body.url,
-    //     thumbnail: req.file.path,
-    //     postedOn: new Date()
-    // })
+    const newData = new extraData({
+        type: req.body.type,
+        url: req.body.url,
+        thumbnail: req.files[0].path,
+        postedOn: new Date()
+    })
     
-    // newData.save((err, data) => {
-    //     if(err) return res.json({Error: err});
-    //     return res.json(data);
-    // })
+    newData.save((err, data) => {
+        if(err) return res.json({Error: err});
+        return res.json(data);
+    })
 };
 
 const updateData = (req, res, next) => {

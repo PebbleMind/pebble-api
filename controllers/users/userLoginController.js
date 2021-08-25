@@ -46,8 +46,8 @@ const sendConfirmationMail = (email, uniqueString) => {
         .request({
             "Messages": [{
                 "From": {
-                    "Email": "pebblecontact.team@gmail.com",
-                    "Name": "Pebble Mind"
+                    "Email": "admin@pebblewellness.in",
+                    "Name": "Pebble"
                 },
                 "To": [{
                     "Email": email,
