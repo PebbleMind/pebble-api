@@ -1,19 +1,23 @@
 const adminLogin = require('../../models/admin/adminLoginModel')
-const bcrypt = require('bcrypt')
+//const bcrypt = require('bcrypt')
 
 const getAllData = (req, res, next) => {
-    adminLogin.find({}, (err, data) => {
-        if (err) {
-            return res.json({
-                Error: err
-            });
-        }
-        return res.json(data);
-    })
+    if(req.headers.auth == '12345'){
+        adminLogin.find({}, (err, data) => {
+            if (err) {
+                return res.json({
+                    Error: err
+                });
+            }
+            return res.json(data);
+        })
+    }else{
+        return res.json({message: "Authorization required"});
+    }
 };
 
 const newData = (req, res) => {
-    const orgPassword = req.body.password
+    //const orgPassword = req.body.password
 
     adminLogin.findOne({
         email: req.body.email
@@ -27,13 +31,26 @@ const newData = (req, res) => {
                 message: "Email already exists"
             });
         } else {
-            bcrypt.hash(orgPassword, 10, function(err, hashedPassword) {
-                if(err) return res.json({
-                    Error: err
-                });
+            // bcrypt.hash(orgPassword, 10, function(err, hashedPassword) {
+            //     if(err) return res.json({
+            //         Error: err
+            //     });
+            //     const newData = new adminLogin({
+            //         email: req.body.email,
+            //         password: hashedPassword
+            //     })
+            //     newData.save((err, data) => {
+            //         if (err) return res.json({
+            //             Error: err
+            //         });
+            //         return res.json(data);
+            //     })
+            // });
+
+            if(req.headers.auth == '12345'){
                 const newData = new adminLogin({
                     email: req.body.email,
-                    password: hashedPassword
+                    password: req.body.password
                 })
                 newData.save((err, data) => {
                     if (err) return res.json({
@@ -41,7 +58,9 @@ const newData = (req, res) => {
                     });
                     return res.json(data);
                 })
-            });
+            }else{
+                return res.json({message: "Authorization required"});
+            }
         } 
     })
 };
