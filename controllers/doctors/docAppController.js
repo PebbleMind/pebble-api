@@ -53,6 +53,10 @@ const updateData = (req, res, next) => {
         if(req.body.payment){
             data.payment = req.body.payment
         }
+
+        if(req.body.doctorNotes){
+            data.doctorNotes = req.body.doctorNotes
+        }
         
         data.save()
         return res.json(data)
