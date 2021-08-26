@@ -1,24 +1,36 @@
 const adminLogin = require('../../models/admin/adminLoginModel')
-//const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    if (token == null) return res.status(401).send({message: "Authorization required"})
+    jwt.verify(token, process.env.API_ADMIN_SECRET_KEY, (err, user) => {
+        if (err){
+            if(err.name == 'TokenExpiredError'){
+                return res.status(400).send({message: "Token expired"})
+            }else{
+                return res.status(403).send({message: "Access denied"})
+            }
+        }else{
+            next()
+        }
+    })
+};
 
 const getAllData = (req, res, next) => {
-    if(req.headers.auth == '12345'){
-        adminLogin.find({}, (err, data) => {
-            if (err) {
-                return res.json({
-                    Error: err
-                });
-            }
-            return res.json(data);
-        })
-    }else{
-        return res.json({message: "Authorization required"});
-    }
+    adminLogin.find({}, (err, data) => {
+        if (err) {
+            return res.json({
+                Error: err
+            });
+        }
+        return res.json(data);
+    })
 };
 
 const newData = (req, res) => {
-    //const orgPassword = req.body.password
-
     adminLogin.findOne({
         email: req.body.email
     }, (err, data) => {
@@ -31,42 +43,21 @@ const newData = (req, res) => {
                 message: "Email already exists"
             });
         } else {
-            // bcrypt.hash(orgPassword, 10, function(err, hashedPassword) {
-            //     if(err) return res.json({
-            //         Error: err
-            //     });
-            //     const newData = new adminLogin({
-            //         email: req.body.email,
-            //         password: hashedPassword
-            //     })
-            //     newData.save((err, data) => {
-            //         if (err) return res.json({
-            //             Error: err
-            //         });
-            //         return res.json(data);
-            //     })
-            // });
-
-            if(req.headers.auth == '12345'){
-                const newData = new adminLogin({
-                    email: req.body.email,
-                    password: req.body.password
-                })
-                newData.save((err, data) => {
-                    if (err) return res.json({
-                        Error: err
-                    });
-                    return res.json(data);
-                })
-            }else{
-                return res.json({message: "Authorization required"});
-            }
+            const newData = new adminLogin({
+                email: req.body.email,
+                password: req.body.password
+            })
+            newData.save((err, data) => {
+                if (err) return res.json({
+                    Error: err
+                });
+                return res.json(data);
+            })
         } 
     })
 };
 
 const updateData = (req, res, next) => {
-
     adminLogin.findOne({
         _id: req.params.id
     }, (err, data) => {
@@ -90,12 +81,10 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
-
+};
 
 const deleteOneData = (req, res, next) => {
     let id = req.params.id;
-
     adminLogin.deleteOne({
         _id: id
     }, (err, data) => {
@@ -110,6 +99,7 @@ const deleteOneData = (req, res, next) => {
 };
 
 module.exports = {
+    authenticateToken,
     getAllData,
     newData,
     updateData,

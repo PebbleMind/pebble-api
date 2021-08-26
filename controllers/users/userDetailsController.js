@@ -1,12 +1,46 @@
 const userData = require('../../models/users/userDetailsModel');
 const multer = require('multer');
+const jwt = require('jsonwebtoken');
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    if (token == null) return res.status(401).send({message: "Authorization required"})
+    jwt.verify(token, process.env.API_USER_SECRET_KEY, (err, user) => {
+        if (err){
+            console.log(err)
+            if(err.name == 'TokenExpiredError'){
+                return res.status(400).send({message: "Token expired"})
+            }else{
+                return res.status(403).send({message: "Access denied"})
+            }
+        }else{
+            next()
+        }
+    })
+};
+
+const generateFileName = (name) => {
+    var fileName = ''
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var charactersLength = characters.length;
+
+    const searchTerm = '.'
+    const imageType = name.substring(name.lastIndexOf(searchTerm)+1)
+
+    for ( var i = 0; i < 20; i++ ) {
+      fileName += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return fileName + '.' + imageType 
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/users");
       },
     filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, generateFileName(file.originalname));
     },
 });
 
@@ -104,7 +138,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     userData.deleteMany({}, err => {
@@ -127,6 +161,7 @@ const deleteOneData = (req, res, next) => {
 };
 
 module.exports = {
+    authenticateToken,
     getAllData,
     getOneData,
     uploadImg,

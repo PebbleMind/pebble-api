@@ -61,7 +61,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     appData.deleteMany({}, err => {

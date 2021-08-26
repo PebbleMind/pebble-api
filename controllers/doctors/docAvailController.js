@@ -220,7 +220,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     availData.deleteMany({doctor_id: req.params.doctor_id}, err => {

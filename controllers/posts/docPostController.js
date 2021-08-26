@@ -1,23 +1,26 @@
 const postData = require('../../models/posts/docPostModel');
 const multer = require('multer')
 
-const generateFileName = () => {
+const generateFileName = (name) => {
     var fileName = ''
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
     var charactersLength = characters.length;
+
+    const searchTerm = '.'
+    const imageType = name.substring(name.lastIndexOf(searchTerm)+1)
+
     for ( var i = 0; i < 20; i++ ) {
-      fileName += characters.charAt(Math.floor(Math.random() * 
-      charactersLength));
+      fileName += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return fileName
-}
+    return fileName + '.' + imageType 
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/posts");
       },
     filename: function (req, file, cb) {
-        cb(null, generateFileName());
+        cb(null, generateFileName(file.originalname));
     },
 });
 
@@ -90,7 +93,7 @@ const updateData = (req, res, next) => {
             return res.json(data);
         })
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     postData.deleteMany({}, err => {
@@ -146,7 +149,7 @@ const deleteOneComment = (req, res, next) => {
             return res.json({message: "Data deleted."});
         }
     })
-}
+};
 
 module.exports = {
     getAllData,

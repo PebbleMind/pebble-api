@@ -78,7 +78,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     let doctor_id = req.params.doctor_id;

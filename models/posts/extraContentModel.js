@@ -12,6 +12,6 @@ const dataSchema = new mongoose.Schema({
         default: new Date()
     },
     thumbnail:String,
-})
+});
 
 module.exports = mongoose.model('Extra Content', dataSchema);

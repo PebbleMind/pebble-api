@@ -1,6 +1,5 @@
 const docData = require('../../models/doctors/docDetailsModel');
 const multer = require('multer');
-const jwt_decode = require('jwt-decode');
 const jwt = require('jsonwebtoken');
 var docID = 1;
 
@@ -9,8 +8,9 @@ const authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]
 
     if (token == null) return res.status(401).send({message: "Authorization required"})
-    jwt.verify(token, process.env.API_SECRET_KEY, (err, user) => {
+    jwt.verify(token, process.env.API_DOC_SECRET_KEY, (err, user) => {
         if (err){
+            console.log(err)
             if(err.name == 'TokenExpiredError'){
                 return res.status(400).send({message: "Token expired"})
             }else{
@@ -20,14 +20,28 @@ const authenticateToken = (req, res, next) => {
             next()
         }
     })
-}
+};
+
+const generateFileName = (name) => {
+    var fileName = ''
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var charactersLength = characters.length;
+
+    const searchTerm = '.'
+    const imageType = name.substring(name.lastIndexOf(searchTerm)+1)
+
+    for ( var i = 0; i < 20; i++ ) {
+      fileName += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return fileName + '.' + imageType 
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "./uploads/doctors");
       },
     filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, generateFileName(file.originalname));
     },
 });
 
@@ -59,7 +73,7 @@ function fetchLastDocID(req, res){
         docID = parseInt(data[0].doctor_id.slice(8, ))
         newData(req, res)
     })
-}
+};
 
 function* IDGenerator() {
     while(true){
@@ -67,7 +81,7 @@ function* IDGenerator() {
         yield 'PBL' + date.getFullYear() + '.' + docID
         docID++
     }
-}
+};
 
 const generator = IDGenerator()
 const newData = (req, res) => {
@@ -203,7 +217,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     docData.deleteMany({}, err => {

@@ -34,7 +34,7 @@ const randString = () => {
         randStr += ch
     }
     return randStr
-}
+};
 
 const sendConfirmationMail = (email, uniqueString) => {
     const mailjet = require('node-mailjet')
@@ -142,7 +142,7 @@ const sendConfirmationMail = (email, uniqueString) => {
         .catch((err) => {
             console.log(err.statusCode)
         })
-}
+};
 
 const newData = (req, res) => {
     const uniqueString = randString()
@@ -209,7 +209,7 @@ const updateData = (req, res, next) => {
         data.save()
         return res.json(data)
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     Login.deleteMany({}, err => {
@@ -254,7 +254,7 @@ const verifyUser = (req, res, next) => {
         data.save()
         return res.sendFile(process.cwd() + '/emailConfirmation.html')
     })
-}
+};
 
 module.exports = {
     getAllData,

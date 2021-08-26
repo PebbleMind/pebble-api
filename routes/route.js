@@ -24,10 +24,10 @@ const extraContentController = require('../controllers/posts/extraContentControl
 const router  = express.Router();
 
 //admin - login 
-router.get('/admin/login', adminLoginController.getAllData);
-router.post('/admin/login/add', adminLoginController.newData);
-router.patch('/admin/login/update/:id', adminLoginController.updateData);
-router.delete('/admin/login/remove/:id', adminLoginController.deleteOneData);
+router.get('/admin/login', adminLoginController.authenticateToken, adminLoginController.getAllData);
+router.post('/admin/login/add', adminLoginController.authenticateToken, adminLoginController.newData);
+router.patch('/admin/login/update/:id', adminLoginController.authenticateToken, adminLoginController.updateData);
+router.delete('/admin/login/remove/:id', adminLoginController.authenticateToken, adminLoginController.deleteOneData);
 
 //user - login
 router.get('/users/login', userLoginController.getAllData);
@@ -41,12 +41,12 @@ router.delete('/users/login/:id', userLoginController.deleteOneData);
 router.get('/users/verify/:uniqueString', userLoginController.verifyUser);
 
 //user - details
-router.get('/users', userDetailsController.getAllData);
-router.get('/users/:id', userDetailsController.getOneData);
-router.post('/users', userDetailsController.uploadImg, userDetailsController.newData); 
-router.patch('/users/:id', userDetailsController.uploadImg, userDetailsController.updateData); 
-router.delete('/users', userDetailsController.deleteAllData);
-router.delete('/users/:id', userDetailsController.deleteOneData);
+router.get('/users', userDetailsController.authenticateToken, userDetailsController.getAllData);
+router.get('/users/:id', userDetailsController.authenticateToken, userDetailsController.getOneData);
+router.post('/users', userDetailsController.authenticateToken, userDetailsController.uploadImg, userDetailsController.newData); 
+router.patch('/users/:id', userDetailsController.authenticateToken, userDetailsController.uploadImg, userDetailsController.updateData); 
+router.delete('/users', userDetailsController.authenticateToken, userDetailsController.deleteAllData);
+router.delete('/users/:id', userDetailsController.authenticateToken, userDetailsController.deleteOneData);
 
 //user - appointments
 router.get('/users/:user_id/appointments', userAppController.getAllData);
@@ -77,12 +77,12 @@ router.delete('/doctors/login', docLoginController.deleteAllData);
 router.delete('/doctors/login/:id', docLoginController.deleteOneData);
 
 //doctor - details
-router.get('/doctors', docDetailsController.authenticateToken ,docDetailsController.getAllData);
-router.get('/doctors/:id', docDetailsController.getOneData);
-router.post('/doctors', docDetailsController.uploadImg, docDetailsController.newData); 
-router.patch('/doctors/:id', docDetailsController.uploadImg, docDetailsController.updateData); 
-router.delete('/doctors', docDetailsController.deleteAllData);
-router.delete('/doctors/:id', docDetailsController.deleteOneData);
+router.get('/doctors', docDetailsController.authenticateToken, docDetailsController.getAllData);
+router.get('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.getOneData);
+router.post('/doctors', docDetailsController.authenticateToken, docDetailsController.uploadImg, docDetailsController.newData); 
+router.patch('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.uploadImg, docDetailsController.updateData); 
+router.delete('/doctors', docDetailsController.authenticateToken, docDetailsController.deleteAllData);
+router.delete('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.deleteOneData);
 
 //doctor - availability
 router.get('/doctors/:doctor_id/availability', docAvailController.getAllData);

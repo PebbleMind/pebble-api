@@ -13,7 +13,7 @@ const generateFileName = (name) => {
       fileName += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return fileName + '.' + imageType 
-}
+};
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -68,7 +68,7 @@ const updateData = (req, res, next) => {
             return res.json({message: "Data not found"});
         }
     })
-}
+};
 
 const deleteAllData = (req, res, next) => {
     extraData.deleteMany({}, err => {
