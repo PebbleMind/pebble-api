@@ -77,7 +77,7 @@ router.delete('/doctors/login', docLoginController.deleteAllData);
 router.delete('/doctors/login/:id', docLoginController.deleteOneData);
 
 //doctor - details
-router.get('/doctors', docDetailsController.getAllData);
+router.get('/doctors', docDetailsController.authenticateToken ,docDetailsController.getAllData);
 router.get('/doctors/:id', docDetailsController.getOneData);
 router.post('/doctors', docDetailsController.uploadImg, docDetailsController.newData); 
 router.patch('/doctors/:id', docDetailsController.uploadImg, docDetailsController.updateData); 

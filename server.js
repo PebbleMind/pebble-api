@@ -6,6 +6,7 @@ const cors = require("cors");
 const routes = require('./routes/route');
 const app = express();
 
+require('dotenv').config()
 app.use(helmet());
 app.use(compression());
 app.use(cors());

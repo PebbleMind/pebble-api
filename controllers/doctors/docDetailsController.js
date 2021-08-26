@@ -1,6 +1,26 @@
 const docData = require('../../models/doctors/docDetailsModel');
 const multer = require('multer');
+const jwt_decode = require('jwt-decode');
+const jwt = require('jsonwebtoken');
 var docID = 1;
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+
+    if (token == null) return res.status(401).send({message: "Authorization required"})
+    jwt.verify(token, process.env.API_SECRET_KEY, (err, user) => {
+        if (err){
+            if(err.name == 'TokenExpiredError'){
+                return res.status(400).send({message: "Token expired"})
+            }else{
+                return res.status(403).send({message: "Access denied"})
+            }
+        }else{
+            next()
+        }
+    })
+}
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -206,6 +226,7 @@ const deleteOneData = (req, res, next) => {
 };
 
 module.exports = {
+    authenticateToken,
     getAllData,
     getOneData,
     uploadImg,
