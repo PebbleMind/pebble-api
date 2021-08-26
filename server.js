@@ -26,7 +26,7 @@ app.route('/')
 });
 
 mongoose.connect(
-    'mongodb+srv://admin:pebble@pebble-api.30qlv.mongodb.net/Pebble?retryWrites=true&w=majority',
+    process.env.MONGODB_URI,
     { 
         useFindAndModify: false, 
         useUnifiedTopology: true, 
