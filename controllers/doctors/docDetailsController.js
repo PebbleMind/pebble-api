@@ -59,7 +59,7 @@ const getAllData = (req, res, next) => {
 const getOneData = (req, res, next) => {
     let id = req.params.id;
 
-    docData.findOne({_id: id}, (err, data)=>{
+    docData.findOne({doctor_id: id}, (err, data)=>{
         if(err || !data) {
             return res.json({message: "Data not found"});
         }

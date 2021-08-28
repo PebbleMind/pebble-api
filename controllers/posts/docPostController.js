@@ -53,8 +53,7 @@ const newData = (req, res) => {
             doctor_id: req.body.doctor_id, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
-                date: req.body.date,
-                image: req.file.path,
+            image: req.file.path,
         })
     }
     else{
@@ -62,7 +61,6 @@ const newData = (req, res) => {
             doctor_id: req.body.doctor_id, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
-                date: req.body.date,
         })
     }
     newData.save((err, data) => {
