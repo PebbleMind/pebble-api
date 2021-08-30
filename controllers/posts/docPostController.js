@@ -1,5 +1,18 @@
 const postData = require('../../models/posts/docPostModel');
-const multer = require('multer')
+const multer = require('multer');
+const mongoose = require('mongoose');
+const {GridFsStorage} = require('multer-gridfs-storage')
+require('dotenv').config();
+
+const url = process.env.MONGODB_URI;
+const connect = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
+let gfs;
+
+connect.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+        bucketName: "uploads/posts"
+    });
+});
 
 const generateFileName = (name) => {
     var fileName = ''
@@ -15,16 +28,36 @@ const generateFileName = (name) => {
     return fileName + '.' + imageType 
 };
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./uploads/posts");
-      },
-    filename: function (req, file, cb) {
-        cb(null, generateFileName(file.originalname));
-    },
+const storage = new GridFsStorage({
+    url: process.env.MONGODB_URI,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
+    file: (req, file) => {
+        var filename = generateFileName(file.originalname)
+        return {
+          bucketName: "uploads/posts",
+          filename: filename
+        };
+    }
 });
 
 const uploadImg = multer({storage: storage}).single("image");
+
+const displayImg = (req, res, next) => {
+    gfs.find({filename: req.params.filename}).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+            return res.status(404).json({
+                message: 'No files available',
+            });
+        }
+        if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/svg+xml') {
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        } else {
+            res.status(400).json({
+                err: 'Not an image',
+            });
+        }
+    })
+}
 
 const getAllData = (req, res, next) => {
     postData.find({}, (err, data)=>{
@@ -50,15 +83,23 @@ const newData = (req, res) => {
     var newData
     if(req.file){
         newData = new postData({
-            doctor_id: req.body.doctor_id, 
+            doctorInfo: req.body.doctorInfo,
+                doctor_id: req.body.doctor_id,
+                name: req.body.name,
+                education: req.body.education,
+                image: req.body.image, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
-            image: req.file.path,
+            image: 'http://localhost:3000/uploads/posts/'+req.file.filename
         })
     }
     else{
         newData = new postData({
-            doctor_id: req.body.doctor_id, 
+            doctorInfo: req.body.doctorInfo,
+                doctor_id: req.body.doctor_id,
+                name: req.body.name,
+                education: req.body.education,
+                image: req.body.image, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
         })
@@ -71,6 +112,27 @@ const newData = (req, res) => {
 
 const updateData = (req, res, next) => {
     let id = req.params.id
+    if(req.file){
+        postData.findOne({_id: id}, (err, data) => {
+            if(err || !data) {
+                return res.json({message: "Data not found"});
+            }
+            data.image = 'http://localhost:3000/uploads/posts/'+req.file.filename
+            data.save(err => {
+                if (err) { 
+                return res.json({Error: err});
+                }
+                return res.json(data);
+            })
+        })
+    }
+    else{
+        return res.json({message: "File not detected"});
+    }
+}
+
+const updateCommentsData = (req, res, next) => {
+    let id = req.params.id
     let user_id = req.body.user_id
     let comment = req.body.comment
     const tempData = {
@@ -78,7 +140,6 @@ const updateData = (req, res, next) => {
         comment: comment,
         date: new Date()
     }
-
     postData.findOne({_id: id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
@@ -92,6 +153,23 @@ const updateData = (req, res, next) => {
         })
     })
 };
+
+const updateLikesData = (req, res, next) => {
+    let id = req.params.id
+
+    postData.findOne({_id: id}, (err, data) => {
+        if(err || !data) {
+            return res.json({message: "Data not found"});
+        }
+        data.postLikes += 1
+        data.save(err => {
+            if (err) { 
+            return res.json({Error: err});
+            }
+            return res.json(data);
+        })
+    })
+}
 
 const deleteAllData = (req, res, next) => {
     postData.deleteMany({}, err => {
@@ -153,8 +231,11 @@ module.exports = {
     getAllData,
     getOneData,
     uploadImg,
+    displayImg,
     newData,
     updateData,
+    updateCommentsData,
+    updateLikesData,
     deleteAllData,
     deleteOneData,
     deleteAllComment,

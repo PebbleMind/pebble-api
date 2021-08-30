@@ -53,7 +53,10 @@ const dataSchema = new mongoose.Schema({
     ratings: {
         type: Number,
     },
-    image:String,
+    image: {
+        type:String,
+        default: ''
+    },
 });
 
 module.exports = mongoose.model('Doc Details', dataSchema);

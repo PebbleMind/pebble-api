@@ -25,7 +25,10 @@ const dataSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    image:String,
+    image:{
+        type:String,
+        default: ''
+    },
 
 });
 

@@ -43,10 +43,12 @@ router.get('/users/verify/:uniqueString', userLoginController.verifyUser);
 //user - details
 router.get('/users', userDetailsController.authenticateToken, userDetailsController.getAllData);
 router.get('/users/:id', userDetailsController.authenticateToken, userDetailsController.getOneData);
-router.post('/users', userDetailsController.authenticateToken, userDetailsController.uploadImg, userDetailsController.newData); 
-router.patch('/users/:id', userDetailsController.authenticateToken, userDetailsController.uploadImg, userDetailsController.updateData); 
+router.post('/users', userDetailsController.authenticateToken, userDetailsController.newData); 
+router.patch('/users/:id', userDetailsController.authenticateToken, userDetailsController.imagePreCheck, userDetailsController.uploadImg, userDetailsController.updateData); 
 router.delete('/users', userDetailsController.authenticateToken, userDetailsController.deleteAllData);
 router.delete('/users/:id', userDetailsController.authenticateToken, userDetailsController.deleteOneData);
+
+router.get('/uploads/users/:filename', userDetailsController.displayImg);
 
 //user - appointments
 router.get('/users/:user_id/appointments', userAppController.getAllData);
@@ -79,10 +81,12 @@ router.delete('/doctors/login/:id', docLoginController.deleteOneData);
 //doctor - details
 router.get('/doctors', docDetailsController.authenticateToken, docDetailsController.getAllData);
 router.get('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.getOneData);
-router.post('/doctors', docDetailsController.authenticateToken, docDetailsController.uploadImg, docDetailsController.newData); 
-router.patch('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.uploadImg, docDetailsController.updateData); 
+router.post('/doctors', docDetailsController.authenticateToken, docDetailsController.newData); 
+router.patch('/doctors/:id',docDetailsController.authenticateToken, docDetailsController.imagePreCheck, docDetailsController.uploadImg, docDetailsController.updateData); 
 router.delete('/doctors', docDetailsController.authenticateToken, docDetailsController.deleteAllData);
 router.delete('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.deleteOneData);
+
+router.get('/uploads/doctors/:filename', docDetailsController.displayImg);
 
 //doctor - availability
 router.get('/doctors/:doctor_id/availability', docAvailController.getAllData);
@@ -120,11 +124,15 @@ router.delete('/posts/extra/:id', extraContentController.deleteOneData);
 router.get('/posts', docPostController.getAllData);
 router.get('/posts/:id', docPostController.getOneData);
 router.post('/posts', docPostController.uploadImg, docPostController.newData); 
-router.post('/posts/:id/comment', docPostController.updateData); 
+router.patch('/posts/:id', docPostController.uploadImg, docPostController.updateData);
+router.post('/posts/:id/comment', docPostController.updateCommentsData); 
+router.post('/posts/:id/like', docPostController.updateLikesData)
 router.delete('/posts', docPostController.deleteAllData);
 router.delete('/posts/:id', docPostController.deleteOneData);
 router.delete('/posts/:id/comment', docPostController.deleteAllComment);
 router.delete('/posts/:id/comment/:c_id', docPostController.deleteOneComment);
+
+router.get('/uploads/posts/:filename', docPostController.displayImg);
 
 
 module.exports = router;

@@ -1,10 +1,24 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-    doctor_id: {
-        type: String,
+    doctorInfo:{
+        doctor_id: {
+            type: String,
+        },
+        name:{
+            type: String,
+        },
+        education: {
+            type: String,
+        },
+        image: {
+            type: String,
+        }
     },
-    image: String,
+    image:{
+        type: String,
+        default: ''
+    }, 
     postInfo:{
         description:{
             type: String,
@@ -16,6 +30,7 @@ const dataSchema = new mongoose.Schema({
     },
     postLikes: {
         type: Number,
+        default: 0
     },
     postComments:[{ 
         user_id:{

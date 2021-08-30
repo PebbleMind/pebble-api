@@ -1,7 +1,20 @@
 const docData = require('../../models/doctors/docDetailsModel');
 const multer = require('multer');
+const mongoose = require('mongoose');
+const {GridFsStorage} = require('multer-gridfs-storage')
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const url = process.env.MONGODB_URI;
+const connect = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
+let gfs;
 var docID = 1;
+
+connect.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(connect.db, {
+        bucketName: "uploads/doctors"
+    });
+});
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -22,6 +35,26 @@ const authenticateToken = (req, res, next) => {
     })
 };
 
+const imagePreCheck = (req, res, next) => {
+    gfs.find().toArray((err, files) => {
+        if(!files || files.length === 0) {
+            next();
+        }
+        files.map(file => {
+            if (file.metadata.doctor_id == req.params.id) {
+                gfs.delete(new mongoose.Types.ObjectId(file._id),
+                    (err, data) => {
+                        if (err){
+                            return res.status(400).send({message: 'Unable to delete file'})
+                        }else{
+                            next()
+                        }
+                })
+            }
+        })
+    })   
+}
+
 const generateFileName = (name) => {
     var fileName = ''
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -36,16 +69,39 @@ const generateFileName = (name) => {
     return fileName + '.' + imageType 
 };
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "./uploads/doctors");
-      },
-    filename: function (req, file, cb) {
-        cb(null, generateFileName(file.originalname));
-    },
+const storage = new GridFsStorage({
+    url: process.env.MONGODB_URI,
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
+    file: (req, file) => {
+        var filename = generateFileName(file.originalname)
+        return {
+          bucketName: "uploads/doctors",
+          filename: filename,
+          metadata: {
+              doctor_id: req.params.id
+          }
+        };
+    }
 });
 
-const uploadImg = multer({storage: storage}).single("image");
+const uploadImg = multer({storage: storage}).single("image");  
+
+const displayImg = (req, res, next) => {
+    gfs.find({filename: req.params.filename}).toArray((err, files) => {
+        if (!files[0] || files.length === 0) {
+            return res.status(404).json({
+                message: 'No files available',
+            });
+        }
+        if (files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'image/svg+xml') {
+            gfs.openDownloadStreamByName(req.params.filename).pipe(res);
+        } else {
+            res.status(400).json({
+                err: 'Not an image',
+            });
+        }
+    })
+}
 
 const getAllData = (req, res, next) => {
     docData.find({}, (err, data)=>{
@@ -158,7 +214,7 @@ const newData = (req, res) => {
 };
 
 const updateData = (req, res, next) => {
-    docData.findOne({_id: req.params.id}, (err, data) => {
+    docData.findOne({doctor_id: req.params.id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
@@ -211,7 +267,7 @@ const updateData = (req, res, next) => {
                 data.ratings = req.body.ratings
             }
             if(req.file){
-                data.image = req.file.path
+                data.image = 'http://localhost:3000/uploads/doctors/'+req.file.filename
             }
         }       
         data.save()
@@ -243,7 +299,9 @@ module.exports = {
     authenticateToken,
     getAllData,
     getOneData,
+    imagePreCheck,
     uploadImg,
+    displayImg,
     newData,
     updateData,
     deleteAllData,
