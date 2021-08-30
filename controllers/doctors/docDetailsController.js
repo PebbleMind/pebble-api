@@ -267,7 +267,7 @@ const updateData = (req, res, next) => {
                 data.ratings = req.body.ratings
             }
             if(req.file){
-                data.image = 'http://localhost:3000/uploads/doctors/'+req.file.filename
+                data.image = 'http://api.pebblewellness.in/uploads/doctors/'+req.file.filename
             }
         }       
         data.save()

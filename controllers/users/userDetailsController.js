@@ -190,7 +190,7 @@ const updateData = (req, res, next) => {
             data.phone = req.body.phone
         }
         if(req.file){
-            data.image = 'http://localhost:3000/uploads/users/'+req.file.filename
+            data.image = 'http://api.pebblewellness.in/uploads/users/'+req.file.filename
         }
         data.save()
         return res.json(data)

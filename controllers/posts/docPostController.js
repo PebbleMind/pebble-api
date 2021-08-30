@@ -90,7 +90,7 @@ const newData = (req, res) => {
                 image: req.body.image, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
-            image: 'http://localhost:3000/uploads/posts/'+req.file.filename
+            image: 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
         })
     }
     else{
@@ -117,7 +117,7 @@ const updateData = (req, res, next) => {
             if(err || !data) {
                 return res.json({message: "Data not found"});
             }
-            data.image = 'http://localhost:3000/uploads/posts/'+req.file.filename
+            data.image = 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
             data.save(err => {
                 if (err) { 
                 return res.json({Error: err});
