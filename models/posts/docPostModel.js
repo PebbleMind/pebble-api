@@ -20,6 +20,10 @@ const dataSchema = new mongoose.Schema({
         default: ''
     }, 
     postInfo:{
+        filename:{
+            type: String,
+            default: ''
+        },
         description:{
             type: String,
         },

@@ -89,6 +89,7 @@ const newData = (req, res) => {
                 education: req.body.education,
                 image: req.body.image, 
             postInfo: req.body.postInfo,
+                filename: req.file.filename,
                 description: req.body.description,
             image: 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
         })
@@ -154,7 +155,7 @@ const updateCommentsData = (req, res, next) => {
     })
 };
 
-const updateLikesData = (req, res, next) => {
+const addLike = (req, res, next) => {
     let id = req.params.id
 
     postData.findOne({_id: id}, (err, data) => {
@@ -162,6 +163,25 @@ const updateLikesData = (req, res, next) => {
             return res.json({message: "Data not found"});
         }
         data.postLikes += 1
+        data.save(err => {
+            if (err) { 
+            return res.json({Error: err});
+            }
+            return res.json(data);
+        })
+    })
+}
+
+const removeLike = (req, res, next) => {
+    let id = req.params.id
+
+    postData.findOne({_id: id}, (err, data) => {
+        if(err || !data) {
+            return res.json({message: "Data not found"});
+        }
+        if(data.postLikes > 0){
+            data.postLikes -= 1
+        }
         data.save(err => {
             if (err) { 
             return res.json({Error: err});
@@ -235,7 +255,8 @@ module.exports = {
     newData,
     updateData,
     updateCommentsData,
-    updateLikesData,
+    addLike,
+    removeLike,
     deleteAllData,
     deleteOneData,
     deleteAllComment,

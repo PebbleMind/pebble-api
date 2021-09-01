@@ -120,17 +120,20 @@ router.patch('/posts/extra/:id', extraContentController.updateData);
 router.delete('/posts/extra', extraContentController.deleteAllData);
 router.delete('/posts/extra/:id', extraContentController.deleteOneData);
 
+router.get('/uploads/posts/extras/:filename', extraContentController.displayImg);
+
 //home - doctor posts
 router.get('/posts', docPostController.getAllData);
 router.get('/posts/:id', docPostController.getOneData);
 router.post('/posts', docPostController.uploadImg, docPostController.newData); 
 router.patch('/posts/:id', docPostController.uploadImg, docPostController.updateData);
 router.post('/posts/:id/comment', docPostController.updateCommentsData); 
-router.post('/posts/:id/like', docPostController.updateLikesData)
+router.post('/posts/:id/like', docPostController.addLike);
 router.delete('/posts', docPostController.deleteAllData);
 router.delete('/posts/:id', docPostController.deleteOneData);
 router.delete('/posts/:id/comment', docPostController.deleteAllComment);
 router.delete('/posts/:id/comment/:c_id', docPostController.deleteOneComment);
+router.delete('/posts/:id/like', docPostController.removeLike);
 
 router.get('/uploads/posts/:filename', docPostController.displayImg);
 
