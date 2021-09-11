@@ -118,7 +118,8 @@ const updateData = (req, res, next) => {
             if(err || !data) {
                 return res.json({message: "Data not found"});
             }
-            data.image = 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
+            var temp = 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
+            data.image.push(temp)
             data.save(err => {
                 if (err) { 
                 return res.json({Error: err});

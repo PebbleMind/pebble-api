@@ -15,10 +15,10 @@ const dataSchema = new mongoose.Schema({
             type: String,
         }
     },
-    image:{
+    image:[{
         type: String,
         default: ''
-    }, 
+    }], 
     postInfo:{
         filename:{
             type: String,

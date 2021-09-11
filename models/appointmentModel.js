@@ -39,7 +39,8 @@ const dataSchema = new mongoose.Schema({
         type: Number
     },
     payment: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     meeting_id: {
         type: Number,

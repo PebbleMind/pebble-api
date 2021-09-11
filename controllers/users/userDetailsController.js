@@ -211,7 +211,7 @@ const deleteOneData = (req, res, next) => {
     
     userData.deleteOne({_id: id}, (err, data) => {
         if(err || !data) {
-            return res.json({message: "Data doesn't exist."});
+            return res.status(404).json({message: "Data doesn't exist."});
         }
         else return res.json({message: "Data deleted."});
     })
