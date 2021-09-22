@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+var currentTime = new Date();
+var ISTOffset = 330;
+var ISTTime = new Date(currentTime.getTime() + (ISTOffset)*60000);
+
 const dataSchema = new mongoose.Schema({
     doctorInfo:{
         doctor_id: {
@@ -20,16 +24,12 @@ const dataSchema = new mongoose.Schema({
         default: ''
     }], 
     postInfo:{
-        filename:{
-            type: String,
-            default: ''
-        },
         description:{
             type: String,
         },
         date: {
-            type: Date,
-            default: new Date()
+            type: Date, 
+            default: ISTTime
         },
     },
     postLikes: {
@@ -45,9 +45,9 @@ const dataSchema = new mongoose.Schema({
         },
         date: {
             type:String, 
-            default: new Date()
+            default: ISTTime
         } 
     }]
 });
 
-module.exports = mongoose.model('Doctor Posts', dataSchema);
+module.exports = mongoose.model('Doc Posts', dataSchema);

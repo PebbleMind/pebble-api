@@ -21,6 +21,9 @@ const docAppController = require('../controllers/doctors/docAppController');
 const docPostController = require('../controllers/posts/docPostController');
 const extraContentController = require('../controllers/posts/extraContentController');
 
+//temp
+const tempDocDetailsController = require('../controllers/temp/tempDocDetailsController');
+
 const router  = express.Router();
 
 //admin - login 
@@ -82,7 +85,7 @@ router.delete('/doctors/login/:id', docLoginController.deleteOneData);
 router.get('/doctors', docDetailsController.authenticateToken, docDetailsController.getAllData);
 router.get('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.getOneData);
 router.post('/doctors', docDetailsController.authenticateToken, docDetailsController.newData); 
-router.patch('/doctors/:id',docDetailsController.authenticateToken, docDetailsController.imagePreCheck, docDetailsController.uploadImg, docDetailsController.updateData); 
+router.patch('/doctors/:id',docDetailsController.authenticateToken, docDetailsController.uploadImg, docDetailsController.updateData); 
 //router.delete('/doctors', docDetailsController.authenticateToken, docDetailsController.deleteAllData);
 router.delete('/doctors/:id', docDetailsController.authenticateToken, docDetailsController.deleteOneData);
 
@@ -131,11 +134,19 @@ router.post('/posts/:id/comment', docPostController.updateCommentsData);
 router.post('/posts/:id/like', docPostController.addLike);
 //router.delete('/posts', docPostController.deleteAllData);
 router.delete('/posts/:id', docPostController.deleteOneData);
+router.delete('/posts/:id/image/:filename', docPostController.deleteOneImage);
 router.delete('/posts/:id/comment', docPostController.deleteAllComment);
 router.delete('/posts/:id/comment/:c_id', docPostController.deleteOneComment);
 router.delete('/posts/:id/like', docPostController.removeLike);
 
 router.get('/uploads/posts/:filename', docPostController.displayImg);
 
+//temp - doctor registration
+router.get('/temp/doctors', tempDocDetailsController.authenticateToken, tempDocDetailsController.getAllData);
+router.get('/temp/doctors/:id', tempDocDetailsController.authenticateToken, tempDocDetailsController.getOneData);
+router.post('/temp/doctors', tempDocDetailsController.authenticateToken, tempDocDetailsController.newData); 
+router.patch('/temp/doctors/:id',tempDocDetailsController.authenticateToken, tempDocDetailsController.updateData); 
+router.delete('/temp/doctors', tempDocDetailsController.authenticateToken, tempDocDetailsController.deleteAllData);
+router.delete('/temp/doctors/:id', tempDocDetailsController.authenticateToken, tempDocDetailsController.deleteOneData);
 
 module.exports = router;

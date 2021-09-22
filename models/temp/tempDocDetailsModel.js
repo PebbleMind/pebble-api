@@ -1,15 +1,8 @@
 const mongoose = require("mongoose");
 
 const dataSchema = new mongoose.Schema({
-    access_blocked: {
-        type: Boolean,
-        default: false,
-    },
-    doctor_id: {
-        type: String,
-    },
-    zoom_id:{
-        type: String,
+    registeredAt: {
+        type: Date,
     },
     basic:{
         first_name: {
@@ -53,20 +46,15 @@ const dataSchema = new mongoose.Schema({
         },
         bio:{
             type: String,
-            default: ''
         },
     },
     tags:[{
         type: String,
     }],
-    ratings: {
-        type: Number,
-        default: 0
-    },
     image: {
         type:String,
         default: ''
     },
 });
 
-module.exports = mongoose.model('Doc Details', dataSchema);
+module.exports = mongoose.model('Temp Doc Details', dataSchema);

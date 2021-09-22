@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const url = process.env.MONGODB_URI;
 const connect = mongoose.createConnection(url, { useNewUrlParser: true, useUnifiedTopology: true });
-let gfs;
+var gfs;
 var docID = 1;
 
 connect.once('open', () => {
@@ -84,7 +84,8 @@ const storage = new GridFsStorage({
     }
 });
 
-const uploadImg = multer({storage: storage}).single("image");  
+
+const uploadImg = multer({storage: storage}).single("image");
 
 const displayImg = (req, res, next) => {
     gfs.find({filename: req.params.filename}).toArray((err, files) => {
@@ -143,7 +144,9 @@ const generator = IDGenerator()
 const newData = (req, res) => {
     const generatedID = generator.next().value
     docData.findOne({
-        email: req.body.email
+        contact:{
+            email: req.body.email
+        }
     }, (err, data) => {
         if (err) {
             return res.json({
@@ -214,11 +217,15 @@ const newData = (req, res) => {
 };
 
 const updateData = (req, res, next) => {
+    console.log('Update running')
     docData.findOne({doctor_id: req.params.id}, (err, data) => {
         if(err || !data) {
             return res.json({message: "Data not found"});
         }
         else{
+            if(req.body.access_blocked != undefined){
+                data.access_blocked = req.body.access_blocked;
+            }
             if(req.body.basic){
                 if(req.body.first_name){
                     data.first_name = req.body.first_name

@@ -81,6 +81,9 @@ const getOneData = (req, res, next) => {
 
 const newData = (req, res) => {
     var newData
+    var currentTime = new Date();
+    var ISTOffset = 330;
+    var ISTTime = new Date(currentTime.getTime() + (ISTOffset)*60000);
     if(req.file){
         newData = new postData({
             doctorInfo: req.body.doctorInfo,
@@ -89,7 +92,6 @@ const newData = (req, res) => {
                 education: req.body.education,
                 image: req.body.image, 
             postInfo: req.body.postInfo,
-                filename: req.file.filename,
                 description: req.body.description,
             image: 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
         })
@@ -120,6 +122,9 @@ const updateData = (req, res, next) => {
             }
             var temp = 'http://api.pebblewellness.in/uploads/posts/'+req.file.filename
             data.image.push(temp)
+            if(req.body.postInfo){
+                data.postInfo.description = req.body.postInfo.description
+            }   
             data.save(err => {
                 if (err) { 
                 return res.json({Error: err});
@@ -129,7 +134,20 @@ const updateData = (req, res, next) => {
         })
     }
     else{
-        return res.json({message: "File not detected"});
+        postData.findOne({_id: id}, (err, data) => {
+            if(err || !data) {
+                return res.json({message: "Data not found"});
+            }
+            if(req.body.postInfo){
+                data.postInfo.description = req.body.postInfo.description
+            }   
+            data.save(err => {
+                if (err) { 
+                return res.json({Error: err});
+                }
+                return res.json(data);
+            })
+        })
     }
 }
 
@@ -139,8 +157,7 @@ const updateCommentsData = (req, res, next) => {
     let comment = req.body.comment
     const tempData = {
         user_id: user_id,
-        comment: comment,
-        date: new Date()
+        comment: comment
     }
     postData.findOne({_id: id}, (err, data) => {
         if(err || !data) {
@@ -212,6 +229,27 @@ const deleteOneData = (req, res, next) => {
     })
 };
 
+const deleteOneImage = (req, res, next) => {
+    let id = req.params.id
+    let filename = req.params.filename
+
+    postData.findOne({_id: id}, (err, data)=>{
+        if(err || !data) {
+            return res.json({message: "Data not found"});
+        }
+        else{
+            data.image.forEach((img, index) => {
+                if(img.includes(filename)){
+                    data.image.splice(index, 1);
+                }
+            })
+            data.save()
+            return res.json({message: "Image delete successful"});
+        }
+    })
+
+}
+
 const deleteAllComment = (req, res, next) => {
     let id = req.params.id
 
@@ -260,6 +298,7 @@ module.exports = {
     removeLike,
     deleteAllData,
     deleteOneData,
+    deleteOneImage,
     deleteAllComment,
     deleteOneComment
 };
