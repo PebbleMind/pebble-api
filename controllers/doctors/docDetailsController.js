@@ -274,7 +274,7 @@ const updateData = (req, res, next) => {
                 data.ratings = req.body.ratings
             }
             if(req.file){
-                data.image = 'http://api.pebblewellness.in/uploads/doctors/'+req.file.filename
+                data.image = 'https://pebble-test.herokuapp.com/uploads/doctors/'+req.file.filename
             }
         }       
         data.save()
