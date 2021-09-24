@@ -1,5 +1,6 @@
 const adminLogin = require('../../models/admin/adminLoginModel')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt')
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -52,7 +53,7 @@ const newData = (req, res) => {
                     Error: err
                 });
                 return res.json(data);
-            })
+            })            
         } 
     })
 };
@@ -70,13 +71,7 @@ const updateData = (req, res, next) => {
             data.email = req.body.email
         }
         if (req.body.password) {
-            bcrypt.hash(req.body.password, 10, function(err, hashedPassword) {
-                if(err) return res.json({
-                    Error: err
-                });
-                data.password = hashedPassword
-                console.log(hashedPassword)
-            });
+            data.password = req.body.password
         }
         data.save()
         return res.json(data)
