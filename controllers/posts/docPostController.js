@@ -93,7 +93,7 @@ const newData = (req, res) => {
                 image: req.body.image, 
             postInfo: req.body.postInfo,
                 description: req.body.description,
-            image: 'https://pebble-test.herokuapp.com/uploads/posts/'+req.file.filename
+            image: 'https://pebble-api.herokuapp.com/uploads/posts/'+req.file.filename
         })
     }
     else{
